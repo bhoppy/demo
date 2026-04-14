@@ -6,7 +6,7 @@
   <title>AutoPayPlus — Dashboard</title>
   <link rel="stylesheet" href="shared.css">
   <style>
-    .hero-card{background:linear-gradient(135deg,#0c3a5e,#0576ce);border-radius:16px;padding:24px;color:#fff;margin-bottom:16px;}
+    .hero-card{background:var(--gradient-header);border-radius:16px;padding:24px;color:#fff;margin-bottom:16px;}
     .hero-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
     .hero-amount{font-size:36px;font-weight:800;line-height:1;}
     .hero-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:6px;}
@@ -26,7 +26,7 @@
     .quick-card-sub{font-size:11px;color:var(--muted);margin-top:2px;}
     .quick-card-cta{font-size:11px;font-weight:600;color:var(--accent);margin-top:8px;}
 
-    .notif-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;position:absolute;top:2px;right:2px;}
+    .notif-dot{width:8px;height:8px;background:var(--error);border-radius:50%;position:absolute;top:2px;right:2px;}
 
     .section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;}
 
@@ -91,7 +91,7 @@
           <circle class="ring-fill" cx="40" cy="40" r="34"
             stroke-dasharray="213.6"
             stroke-dashoffset="141"
-            style="stroke:#16a34a;"/>
+            style="stroke:var(--success);"/>
         </svg>
         <div class="ring-label">34%<span>paid off</span></div>
       </div>
@@ -228,7 +228,7 @@ function launchConfetti() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   const pieces = [];
-  const colors = ['#f59e0b','#10b981','#3b82f6','#ef4444','#8b5cf6','#06b6d4','#f97316'];
+  const colors = ['#f59e0b','#10b981','#3b82f6','var(--error)','#8b5cf6','#06b6d4','#f97316'];
   for (let i = 0; i < 120; i++) {
     pieces.push({
       x: Math.random() * canvas.width,
