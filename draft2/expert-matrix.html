@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPayPlus — App Design Expert Matrix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;padding:24px 16px 60px;}
+    h1{font-size:22px;font-weight:800;margin-bottom:4px;}
+    .sub{font-size:13px;color:#64748b;margin-bottom:28px;}
+    .section{margin-bottom:32px;}
+    .section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#64748b;margin-bottom:12px;}
+
+    .expert-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:16px;margin-bottom:10px;}
+    .expert-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+    .expert-num{width:28px;height:28px;border-radius:8px;background:#0c3a5e;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .expert-name{font-size:14px;font-weight:700;color:#1e293b;}
+    .expert-role{font-size:11px;color:#64748b;margin-top:2px;}
+    .expert-work{font-size:11px;font-weight:600;color:#0576ce;margin-top:4px;}
+    .finding{background:#f8fafc;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:12px;color:#334155;line-height:1.55;}
+    .finding strong{color:#1e293b;}
+    .verdict{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;font-size:12px;color:#166534;font-weight:600;margin-top:8px;}
+    .tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;margin-right:4px;margin-bottom:4px;}
+    .tag-nav{background:#eff6ff;color:#1d4ed8;}
+    .tag-gam{background:#fef3c7;color:#92400e;}
+    .tag-psych{background:#f3e8ff;color:#6b21a8;}
+    .tag-fin{background:#f0fdf4;color:#166534;}
+
+    .verdict-box{background:#0c3a5e;color:#fff;border-radius:14px;padding:20px;margin-bottom:24px;}
+    .verdict-box h2{font-size:16px;font-weight:700;margin-bottom:8px;}
+    .verdict-box p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:6px;}
+    .verdict-box strong{color:#fff;}
+
+    .app-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+    .app-card{background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:12px;}
+    .app-name{font-size:13px;font-weight:700;}
+    .app-nav{font-size:11px;color:#64748b;margin-top:4px;}
+    .app-why{font-size:11px;color:#0576ce;margin-top:4px;font-weight:600;}
+  </style>
+</head>
+<body>
+
+<h1>App Design Expert Matrix</h1>
+<p class="sub">Navigation & Gamification Research for AutoPayPlus Member App · April 2026</p>
+
+<!-- Verdict first -->
+<div class="verdict-box">
+  <h2>Navigation Verdict: Floating Elevated Bottom Nav</h2>
+  <p><strong>4 tabs</strong> (Home · Schedule · History · Profile) in a <strong>pill-shaped, elevated card</strong> floating 16px above the bottom edge. This is the 2024–2026 direction in premium fintech apps.</p>
+  <p>Why not flat bottom nav: feels dated, blends into the screen. Why not hamburger: 65% higher DAU after switching away from it (Redbooth). Why not 5 tabs: 4 is the sweet spot for financial apps — all primary destinations reachable in 1 tap.</p>
+  <p><strong>Gamification Verdict: Payment Streaks + Milestone Badges + Confetti.</strong> Streaks tied to on-time biweekly payments. Loss aversion (Kahneman) makes "don't break your streak" more motivating than "earn points." Milestone achievements for 30/90/180 days and loan payoff percentages.</p>
+</div>
+
+<!-- Navigation experts -->
+<div class="section">
+  <div class="section-title">Navigation Experts (8)</div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">1</div>
+      <div>
+        <div class="expert-name">Nielsen Norman Group</div>
+        <div class="expert-role">Jakob Nielsen & Kate Moran</div>
+        <div class="expert-work">Mobile Navigation Patterns (2024 update)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span><span class="tag tag-fin">Fintech</span>
+    <div class="finding"><strong>Bottom nav drives discoverability.</strong> NN/g found that hamburger menus hide primary navigation from users, causing them to miss features. Bottom nav increases feature discoverability by up to 45%.</div>
+    <div class="finding"><strong>3–5 destinations only.</strong> Each additional tab beyond 5 reduces tap accuracy and increases cognitive load. Odd numbers (3 or 5) create better visual rhythm; 4 is the practical sweet spot.</div>
+    <div class="verdict">→ AutoPayPlus: 4 tabs. All primary screens reachable in 1 tap from anywhere.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">2</div>
+      <div>
+        <div class="expert-name">Steve Hoober</div>
+        <div class="expert-role">UX researcher, MobileDesignPatterns.com</div>
+        <div class="expert-work">"How Do Users Really Hold Mobile Devices" (2013, updated 2023)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span>
+    <div class="finding"><strong>49% of users hold their phone one-handed.</strong> 72% use their thumb as the primary interaction tool. The bottom 40% of the screen is most comfortable — the "thumb zone."</div>
+    <div class="finding"><strong>Top-of-screen navigation creates strain.</strong> Users tighten grip or use two hands to reach top nav, increasing drop risk and frustration. Bottom placement removes this entirely.</div>
+    <div class="verdict">→ Bottom + floating placement is thumb-zone optimized. All 4 tabs in sweet spot.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">3</div>
+      <div>
+        <div class="expert-name">Luke Wroblewski</div>
+        <div class="expert-role">Product Director, Google · Author</div>
+        <div class="expert-work">"Mobile First" (2011) · Ongoing mobile research</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span>
+    <div class="finding"><strong>Mobile context = distracted, hurried, one thumb.</strong> Navigation must survive the hostile conditions of mobile use. Complex menus fail under distraction.</div>
+    <div class="finding"><strong>Progressive disclosure beats surface everything.</strong> Show primary actions immediately; secondary actions one level down. Matches our 4-tab structure with More in Profile.</div>
+    <div class="verdict">→ 4 primary tabs + secondary items in Profile aligns directly with Wroblewski's pattern.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">4</div>
+      <div>
+        <div class="expert-name">Google Material Design 3</div>
+        <div class="expert-role">Google Design Team</div>
+        <div class="expert-work">Material Design Navigation Bar Guidelines (2022–2025)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span>
+    <div class="finding"><strong>Navigation bar for 3–5 top-level destinations.</strong> MD3 introduced the "elevated navigation bar" — a floating variant with higher elevation and rounded corners. This is the pattern trending in 2024–2025 premium apps.</div>
+    <div class="finding"><strong>Active indicator: filled icon + color change.</strong> Two simultaneous visual changes needed to communicate active state clearly (icon style + color).</div>
+    <div class="verdict">→ Our floating nav with blue active state + scale animation matches MD3 elevated pattern.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">5</div>
+      <div>
+        <div class="expert-name">Apple Human Interface Guidelines</div>
+        <div class="expert-role">Apple Design Team</div>
+        <div class="expert-work">iOS Tab Bar Guidelines (iOS 17–18, 2024)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span>
+    <div class="finding"><strong>Tab bar at 49pt height, persistent across all views.</strong> iOS tabs retain state between switches — user's position in each tab is preserved when returning.</div>
+    <div class="finding"><strong>Icon + label always for financial apps.</strong> "Mystery meat" navigation (icons only) works for universally recognized symbols; financial actions require text labels for clarity and accessibility.</div>
+    <div class="verdict">→ All 4 tabs have icons + text labels. State retention simulated in prototype via URL structure.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">6</div>
+      <div>
+        <div class="expert-name">Baymard Institute</div>
+        <div class="expert-role">E-commerce UX research organization</div>
+        <div class="expert-work">Mobile Navigation Research (2024); Form UX Studies</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span><span class="tag tag-fin">Forms</span>
+    <div class="finding"><strong>46% of users face friction with complex menus.</strong> That's nearly half the audience getting stuck — not because of tech literacy, but because of poor layout for human hands.</div>
+    <div class="finding"><strong>Inline editing reduces abandonment vs. separate screens.</strong> For contact info changes (email, phone, address), inline edit with save button reduces form abandonment vs. navigating to a separate settings page.</div>
+    <div class="verdict">→ Profile tab uses inline edit pattern for all contact field changes.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">7</div>
+      <div>
+        <div class="expert-name">Growth.Design (Hoang Nguyen)</div>
+        <div class="expert-role">UX teardown specialists</div>
+        <div class="expert-work">Fintech App UX Teardowns: Robinhood, Cash App, Revolut (2023–2024)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span><span class="tag tag-fin">Fintech</span>
+    <div class="finding"><strong>Floating nav is now table stakes for premium fintech.</strong> Robinhood (2023), Cash App, Revolut, and Wise all use elevated/floating nav bars. Flat bottom nav reads as a "budget app."</div>
+    <div class="finding"><strong>Trust signals belong inside the app, not just marketing pages.</strong> Social proof (assets transacted, member count, reviews) placed in the member app reinforces the decision already made and reduces churn driven by second-guessing.</div>
+    <div class="verdict">→ Floating nav pattern + trust bar inside the app directly addresses both findings.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">8</div>
+      <div>
+        <div class="expert-name">Josh Clark</div>
+        <div class="expert-role">Author, designer</div>
+        <div class="expert-work">"Tapworthy: Designing Great iPhone Apps" + Designing for Touch (2015)</div>
+      </div>
+    </div>
+    <span class="tag tag-nav">Navigation</span>
+    <div class="finding"><strong>Minimum tap target: 44×44pt.</strong> Financial apps see elevated error rates when tapping below this size. Our floating nav items hit 60px height with 25% more area than minimum.</div>
+    <div class="finding"><strong>Navigation should feel like a physical place, not a list of options.</strong> Users build a mental map of the app. Consistent, persistent nav at the same location every screen builds that map faster.</div>
+    <div class="verdict">→ Persistent floating nav on all 4 post-activation screens builds the mental map consistently.</div>
+  </div>
+</div>
+
+<!-- Gamification experts -->
+<div class="section">
+  <div class="section-title">Gamification & Retention Experts (8)</div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">1</div>
+      <div>
+        <div class="expert-name">BJ Fogg</div>
+        <div class="expert-role">Stanford Behavior Design Lab</div>
+        <div class="expert-work">"Tiny Habits" (2019) · Behavior = MAP (Motivation × Ability × Prompt)</div>
+      </div>
+    </div>
+    <span class="tag tag-gam">Gamification</span><span class="tag tag-psych">Psychology</span>
+    <div class="finding"><strong>Gamification only works when core motivation exists.</strong> B=MAP: the trigger (prompt) must arrive when motivation and ability are both high. For AutoPayPlus: motivation = not breaking streak; ability = app is already open.</div>
+    <div class="finding"><strong>Celebration immediately after the behavior.</strong> The achievement toast must fire within seconds of the triggering action, not the next day. Delayed celebration doesn't wire the habit loop.</div>
+    <div class="verdict">→ Achievement toast fires immediately. Confetti on milestone unlock creates the celebration moment Fogg requires.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">2</div>
+      <div>
+        <div class="expert-name">Daniel Kahneman</div>
+        <div class="expert-role">Nobel Laureate, behavioral economist</div>
+        <div class="expert-work">"Thinking, Fast and Slow" (2011) · Prospect Theory</div>
+      </div>
+    </div>
+    <span class="tag tag-gam">Gamification</span><span class="tag tag-psych">Loss Aversion</span>
+    <div class="finding"><strong>Losses hurt 2× more than equivalent gains feel good.</strong> "Don't lose your 47-day streak" is psychologically twice as powerful as "Earn 75 points." Frame streak continuity as loss prevention, not gain acquisition.</div>
+    <div class="finding"><strong>Reference point anchoring.</strong> Once a member has a 30-day streak, that becomes the reference point. Missing a payment feels like losing 30 days of status, not just one day.</div>
+    <div class="verdict">→ Streak display leads with the number to anchor the loss aversion. Locked achievements show what's at stake.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">3</div>
+      <div>
+        <div class="expert-name">Nir Eyal</div>
+        <div class="expert-role">Author, behavioral design researcher</div>
+        <div class="expert-work">"Hooked: How to Build Habit-Forming Products" (2014)</div>
+      </div>
+    </div>
+    <span class="tag tag-gam">Gamification</span><span class="tag tag-psych">Habit Loop</span>
+    <div class="finding"><strong>Trigger → Action → Variable Reward → Investment.</strong> The hook model applied: Trigger (notification: payment due), Action (open app to verify), Variable Reward (streak extended + points), Investment (streak makes leaving more costly).</div>
+    <div class="finding"><strong>Investment compounds retention.</strong> The longer the streak, the more invested the member. A 90-day streak creates enormous switching cost — leaving means giving up status that took 90 days to build.</div>
+    <div class="verdict">→ Streak + locked achievement visible on dashboard creates the investment layer Eyal identifies.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">4</div>
+      <div>
+        <div class="expert-name">Robert Cialdini</div>
+        <div class="expert-role">Social psychologist, Arizona State</div>
+        <div class="expert-work">"Influence: The Psychology of Persuasion" (1984, updated 2021)</div>
+      </div>
+    </div>
+    <span class="tag tag-psych">Psychology</span><span class="tag tag-gam">Gamification</span>
+    <div class="finding"><strong>Commitment & Consistency.</strong> Once a member has identified with a streak or badge level, they act in ways consistent with that identity. "I'm a 90-day member" is an identity, not just a stat.</div>
+    <div class="finding"><strong>Social proof in the app.</strong> 500K+ members, 6,000+ 5-star reviews displayed inside the portal — not just on marketing pages. Members already enrolled want validation that they made a good choice.</div>
+    <div class="verdict">→ Trust bar with 500K members + reviews is Cialdini social proof applied post-enrollment. Reduces churn driven by second-guessing.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">5</div>
+      <div>
+        <div class="expert-name">Richard Thaler & Cass Sunstein</div>
+        <div class="expert-role">Nobel Laureate + Harvard Law</div>
+        <div class="expert-work">"Nudge: Improving Decisions About Health, Wealth, and Happiness" (2008)</div>
+      </div>
+    </div>
+    <span class="tag tag-psych">Psychology</span><span class="tag tag-fin">Fintech</span>
+    <div class="finding"><strong>Progress bars and defaults drive completion.</strong> Showing the loan payoff ring at 34% anchors the member on progress made, not debt remaining. The framing changes behavior.</div>
+    <div class="finding"><strong>Pre-commitment devices reduce churn.</strong> The streak itself is a pre-commitment device — members who track streaks are more likely to maintain the habit because breaking it requires an active decision to stop.</div>
+    <div class="verdict">→ Ring progress (34% paid off) + streak counter are both Thaler nudges applied to retention.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">6</div>
+      <div>
+        <div class="expert-name">Jackson Shuttleworth (Duolingo)</div>
+        <div class="expert-role">Group PM, Retention Team, Duolingo</div>
+        <div class="expert-work">Lenny's Podcast Interview (2024) · Internal streak data</div>
+      </div>
+    </div>
+    <span class="tag tag-gam">Gamification</span>
+    <div class="finding"><strong>Streaks are the single biggest driver of retention.</strong> 7-day streak = 3.6× more likely to stay long-term. 9 million Duolingo users have a 1-year+ streak. "Any app can introduce a streak and if you figure it out, it probably works."</div>
+    <div class="finding"><strong>Streaks must pair with an app people actually want to use.</strong> The streak is an amplifier, not a substitute for value. AutoPayPlus has real value (loan payoff, credit monitoring) — streaks amplify engagement on top of that.</div>
+    <div class="verdict">→ Payment streaks are directly applicable. The behavior (biweekly payments) already happens. Streaks add a layer of identity and loss aversion on top of existing behavior.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">7</div>
+      <div>
+        <div class="expert-name">Robert Skrob</div>
+        <div class="expert-role">Membership growth expert</div>
+        <div class="expert-work">"Retention Point" (2018) · Identity-based retention framework</div>
+      </div>
+    </div>
+    <span class="tag tag-psych">Psychology</span><span class="tag tag-fin">Retention</span>
+    <div class="finding"><strong>Identity is the Retention Point.</strong> Members stay when they identify with the service, not just when they find it useful. "I'm a Gold member" is stickier than "I use AutoPayPlus."</div>
+    <div class="finding"><strong>The fastest path to identity is achievement.</strong> Badges, tier names, and milestone celebrations create identity anchors. The 90-Day Champion badge doesn't just reward — it names the member as a Champion.</div>
+    <div class="verdict">→ Achievement names are identity-based ("47-Day Streak Champion", "90-Day Member") per Skrob's framework. Tier names as nouns.</div>
+  </div>
+
+  <div class="expert-card">
+    <div class="expert-header">
+      <div class="expert-num">8</div>
+      <div>
+        <div class="expert-name">Joey Coleman</div>
+        <div class="expert-role">Customer experience strategist</div>
+        <div class="expert-work">"Never Lose a Customer Again" (2018) · First 100 Days framework</div>
+      </div>
+    </div>
+    <span class="tag tag-psych">Psychology</span><span class="tag tag-fin">Retention</span>
+    <div class="finding"><strong>Customers who feel celebrated in the first 100 days never leave.</strong> Milestone celebrations during the onboarding-to-activation window (Days 0–100) are the highest-leverage retention investment.</div>
+    <div class="finding"><strong>The achievement moment must be designed, not left to chance.</strong> The first payment processed, the first 30-day streak, the credit score activation — each is a designed celebration moment, not an automatic system event.</div>
+    <div class="verdict">→ Auto-triggered achievement toast on dashboard load directly addresses Coleman's "First 100 Days" milestone architecture.</div>
+  </div>
+</div>
+
+<!-- Real app benchmarks -->
+<div class="section">
+  <div class="section-title">Financial App Nav Benchmarks</div>
+  <div class="app-grid">
+    <div class="app-card"><div class="app-name">Cash App</div><div class="app-nav">4 tabs · Floating pill · Icon + label</div><div class="app-why">Primary: Home, Cards, Pay, Activity</div></div>
+    <div class="app-card"><div class="app-name">Robinhood</div><div class="app-nav">5 tabs · Elevated nav · 2023 redesign</div><div class="app-why">Moved to floating from flat bottom nav</div></div>
+    <div class="app-card"><div class="app-name">Revolut</div><div class="app-nav">5 tabs · Card-elevated bottom nav</div><div class="app-why">Home, Cards, Pay, Hub, Profile</div></div>
+    <div class="app-card"><div class="app-name">Chime</div><div class="app-nav">4 tabs · Standard bottom nav</div><div class="app-why">Home, Move Money, Spend, Pay</div></div>
+    <div class="app-card"><div class="app-name">Duolingo</div><div class="app-nav">5 tabs · Floating + streak prominently featured</div><div class="app-why">Streak in header, not nav — ours mirrors this</div></div>
+    <div class="app-card"><div class="app-name">YNAB</div><div class="app-nav">4 tabs · Bottom nav · Goal progress rings</div><div class="app-why">Progress visualization = our ring pattern</div></div>
+  </div>
+</div>
+
+<div style="text-align:center;font-size:11px;color:#94a3b8;margin-top:16px;">AutoPayPlus Phase 2 Prototype · Retention Team · April 2026</div>
+
+</body>
+</html>

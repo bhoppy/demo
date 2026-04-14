@@ -5,158 +5,267 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>AutoPayPlus — Dashboard</title>
   <link rel="stylesheet" href="shared.css">
+  <style>
+    .hero-card{background:linear-gradient(135deg,#0c3a5e,#0576ce);border-radius:16px;padding:24px;color:#fff;margin-bottom:16px;}
+    .hero-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+    .hero-amount{font-size:36px;font-weight:800;line-height:1;}
+    .hero-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:6px;}
+    .hero-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+    .hero-next{font-size:12px;color:rgba(255,255,255,.75);}
+    .hero-next strong{color:#fff;font-size:14px;}
+
+    .loan-progress{margin:4px 0 0;}
+    .loan-bar{height:6px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden;margin:6px 0 4px;}
+    .loan-fill{height:100%;background:#fff;border-radius:3px;width:34%;}
+    .loan-pct{font-size:11px;color:rgba(255,255,255,.75);}
+
+    .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+    .quick-card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);}
+    .quick-card-icon{font-size:22px;margin-bottom:8px;}
+    .quick-card-title{font-size:13px;font-weight:600;color:var(--text);}
+    .quick-card-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+    .quick-card-cta{font-size:11px;font-weight:600;color:var(--accent);margin-top:8px;}
+
+    .notif-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;position:absolute;top:2px;right:2px;}
+
+    .section-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;}
+
+    canvas#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+  </style>
 </head>
 <body>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- Achievement Toast -->
+<div class="ach-toast" id="ach-toast">
+  <div class="ach-toast-icon" id="ach-icon">🎉</div>
+  <div class="ach-toast-body">
+    <div class="ach-toast-title" id="ach-title">Achievement Unlocked!</div>
+    <div class="ach-toast-msg" id="ach-msg">First Payment Processed · +50 pts</div>
+  </div>
+</div>
+
 <div class="phone-frame">
-  <div class="screen">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px;">
+    <div>
+      <div style="font-size:12px;color:var(--muted);">Good morning 👋</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);">Sarah Thompson</div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="showAch('🔥','47-Day Streak!','Consecutive on-time payments · +100 pts')" style="width:40px;height:40px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <div class="notif-dot"></div>
+    </div>
+  </div>
 
-    <!-- 1. Greeting -->
-    <div style="padding:4px 0 8px;"><a href="/" style="font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Menu</a></div><div style="padding-top:8px;padding-bottom:16px;">
-      <h1 style="margin-bottom:4px;">Good morning, Sarah</h1>
-      <p class="text-sm text-subtext">Here's how your plan is helping you move faster.</p>
+  <div class="screen" style="padding-top:8px;">
+
+    <!-- Streak chip -->
+    <div style="margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+      <div class="streak-chip">🔥 <span class="streak-num">47</span> day streak</div>
+      <div style="font-size:12px;color:var(--muted);">On-time payments</div>
     </div>
 
-    <!-- 2. Hero Value Card -->
-    <div class="card mb-4">
-      <!-- Loan synced badge -->
-      <div style="margin-bottom:12px;">
-        <span class="badge badge-accent">1 Loan Synced to Your Paycheck</span>
+    <!-- Hero payment card -->
+    <div class="hero-card">
+      <div class="hero-label">Next Debit</div>
+      <div class="hero-amount">$342.00</div>
+      <div class="hero-sub">2019 Honda Accord — Chase Bank ••••4821</div>
+      <div class="hero-row">
+        <div class="hero-next"><strong>Apr 28, 2026</strong> · in 14 days</div>
+        <div style="background:rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;" onclick="window.location='/draft2/13-schedule.html'">View Schedule</div>
       </div>
-
-      <p class="text-sm text-subtext" style="margin-bottom:4px;">Your biweekly payment</p>
-      <div style="font-size:36px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.1;">$243.50</div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span style="font-size:13px;color:var(--subtext);">Next withdrawal: <strong style="color:var(--text);">April 18, 2026</strong></span>
-      </div>
-
-      <!-- Loan Card -->
-      <div style="background:var(--bg);border-radius:var(--radius);padding:12px;margin-bottom:16px;">
-        <div style="display:flex;align-items:center;">
-          <div style="width:36px;height:36px;background:rgba(27,58,107,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="12" rx="3"/><circle cx="7" cy="12" r="2"/><circle cx="17" cy="12" r="2"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="font-weight:600;font-size:14px;">2022 Honda Civic</div>
-            <div style="font-size:12px;color:var(--subtext);">Capital One Auto Finance</div>
-          </div>
-          <div style="font-weight:600;font-size:14px;color:var(--accent);">$243.50</div>
-        </div>
-      </div>
-
-      <!-- Early Payoff -->
-      <div style="background:var(--success-bg);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        <span style="font-size:14px;font-weight:600;color:var(--success);">Estimated early payoff: 7 months sooner</span>
-      </div>
-
-      <!-- Stats Row -->
-      <div style="display:flex;border-top:1px solid var(--border);padding-top:12px;">
-        <div style="flex:1;text-align:center;">
-          <div style="font-size:18px;font-weight:700;color:var(--success);">$1,847</div>
-          <div style="font-size:12px;color:var(--subtext);">Est. Interest Saved</div>
-        </div>
-        <div style="width:1px;background:var(--border);"></div>
-        <div style="flex:1;text-align:center;">
-          <div style="font-size:18px;font-weight:700;color:var(--primary);">1</div>
-          <div style="font-size:12px;color:var(--subtext);">Loans Enrolled</div>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:12px;">
-        <span class="text-sm text-accent fw-500" style="cursor:pointer;">Tap for loan breakdown</span>
+      <div class="loan-progress">
+        <div class="loan-bar"><div class="loan-fill"></div></div>
+        <div class="loan-pct">34% paid off · $8,246 remaining of $24,900</div>
       </div>
     </div>
 
-    <!-- 3. Next Steps -->
-    <div class="mb-4">
-      <h2 style="font-size:18px;font-weight:600;margin-bottom:4px;">Next steps</h2>
-      <p class="text-sm text-subtext mb-4">Complete your setup and unlock more value from your membership.</p>
+    <!-- Loan progress ring + stats -->
+    <div class="card mb-4" style="display:flex;align-items:center;gap:16px;padding:18px;">
+      <div class="ring-wrap">
+        <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-track" cx="40" cy="40" r="34"/>
+          <circle class="ring-fill" cx="40" cy="40" r="34"
+            stroke-dasharray="213.6"
+            stroke-dashoffset="141"
+            style="stroke:#16a34a;"/>
+        </svg>
+        <div class="ring-label">34%<span>paid off</span></div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">Loan Payoff Progress</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Accelerating with biweekly payments</div>
+        <div style="font-size:12px;color:var(--success);font-weight:600;">Est. 14 months early payoff 🚀</div>
+      </div>
+    </div>
 
-      <!-- Card: Credit Monitoring -->
-      <div class="card mb-3">
-        <div style="display:flex;align-items:flex-start;">
-          <div style="width:40px;height:40px;background:rgba(37,99,235,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;margin-top:2px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span class="text-sm fw-600">Activate free credit monitoring</span>
-              <span class="badge badge-accent">Recommended</span>
-            </div>
-            <p class="text-xs text-subtext mb-3">Includes 12 months through TransUnion</p>
-            <button class="btn btn-sm" style="background:rgba(37,99,235,0.1);color:var(--accent);border:none;border-radius:var(--radius);">Activate Now</button>
-          </div>
+    <!-- Quick action grid -->
+    <div class="section-title">Quick Actions</div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="window.location='/draft2/15-profile.html'" style="cursor:pointer;">
+        <div class="quick-card-icon">📊</div>
+        <div class="quick-card-title">Credit Score</div>
+        <div class="quick-card-sub">742 · Good</div>
+        <div class="quick-card-cta">View Report →</div>
+      </div>
+      <div class="quick-card" onclick="window.location='/draft2/13-schedule.html'" style="cursor:pointer;">
+        <div class="quick-card-icon">📅</div>
+        <div class="quick-card-title">Schedule</div>
+        <div class="quick-card-sub">Next: Apr 28</div>
+        <div class="quick-card-cta">Manage Dates →</div>
+      </div>
+      <div class="quick-card" onclick="window.location='/draft2/14-history.html'" style="cursor:pointer;">
+        <div class="quick-card-icon">🧾</div>
+        <div class="quick-card-title">History</div>
+        <div class="quick-card-sub">47 payments</div>
+        <div class="quick-card-cta">View All →</div>
+      </div>
+      <div class="quick-card" style="cursor:pointer;">
+        <div class="quick-card-icon">🛡️</div>
+        <div class="quick-card-title">Insurance</div>
+        <div class="quick-card-sub">Save up to 23%</div>
+        <div class="quick-card-cta">Get Quote →</div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="section-title">Achievements</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <div class="ach-badge earned" onclick="showAch('✅','First Payment!','You made your first biweekly payment · +50 pts')">
+        <div class="ach-icon">✅</div>
+        <div class="ach-text">
+          <div class="ach-title">First Payment Processed</div>
+          <div class="ach-pts">+50 pts · Earned Mar 1, 2026</div>
         </div>
       </div>
-
-      <!-- Card: Insurance -->
-      <div class="card mb-3">
-        <div style="display:flex;align-items:flex-start;">
-          <div style="width:40px;height:40px;background:rgba(37,99,235,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;margin-top:2px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span class="text-sm fw-600">Check for insurance savings</span>
-              <span class="badge badge-muted">Optional</span>
-            </div>
-            <p class="text-xs text-subtext mb-3">See if your current rate can be improved automatically</p>
-            <button class="btn btn-sm" style="background:rgba(37,99,235,0.1);color:var(--accent);border:none;border-radius:var(--radius);">View Quote</button>
-          </div>
+      <div class="ach-badge earned" onclick="showAch('🔥','30-Day Streak!','30 consecutive on-time payments · +75 pts')">
+        <div class="ach-icon">🔥</div>
+        <div class="ach-text">
+          <div class="ach-title">30-Day Payment Streak</div>
+          <div class="ach-pts">+75 pts · Earned Mar 29, 2026</div>
         </div>
       </div>
-
-      <!-- Card: Tour -->
-      <div class="card mb-3">
-        <div style="display:flex;align-items:flex-start;">
-          <div style="width:40px;height:40px;background:rgba(37,99,235,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;margin-top:2px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span class="text-sm fw-600">Take a quick tour</span>
-              <span class="badge badge-muted">Optional</span>
-            </div>
-            <p class="text-xs text-subtext mb-3">Learn how AutoPayPlus helps you save and stay on track</p>
-            <button class="btn btn-sm" style="background:rgba(37,99,235,0.1);color:var(--accent);border:none;border-radius:var(--radius);">Start Tour</button>
-          </div>
+      <div class="ach-badge earned" onclick="showAch('📊','Credit Activated!','TransUnion monitoring is live · +100 pts')">
+        <div class="ach-icon">📊</div>
+        <div class="ach-text">
+          <div class="ach-title">Credit Monitoring Activated</div>
+          <div class="ach-pts">+100 pts · Earned Feb 15, 2026</div>
+        </div>
+      </div>
+      <div class="ach-badge locked">
+        <div class="ach-icon">🏆</div>
+        <div class="ach-text">
+          <div class="ach-title">90-Day Champion</div>
+          <div class="ach-desc">43 more days · +150 pts</div>
+        </div>
+      </div>
+      <div class="ach-badge locked">
+        <div class="ach-icon">🎯</div>
+        <div class="ach-text">
+          <div class="ach-title">Halfway There</div>
+          <div class="ach-desc">Reach 50% loan payoff · +200 pts</div>
         </div>
       </div>
     </div>
 
-    <!-- 4. Why AutoPayPlus Works -->
-    <div class="card mb-4">
-      <h3 style="font-size:16px;font-weight:600;margin-bottom:12px;">Why AutoPayPlus works</h3>
-      <div style="display:flex;align-items:center;margin-bottom:10px;">
-        <div style="width:28px;height:28px;background:rgba(27,58,107,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <span class="text-sm">Make extra payments automatically</span>
+    <!-- Social proof trust bar -->
+    <div class="trust-bar mb-4">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:12px;">
+        <div class="trust-stat"><div class="ts-num">$5.65B</div><div class="ts-label">Assets Transacted</div></div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat"><div class="ts-num">500K+</div><div class="ts-label">Members</div></div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat"><div class="ts-num">6,000+</div><div class="ts-label">5-Star Reviews</div></div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat"><div class="ts-num">120</div><div class="ts-label">Employees</div></div>
       </div>
-      <div style="display:flex;align-items:center;margin-bottom:10px;">
-        <div style="width:28px;height:28px;background:rgba(27,58,107,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        </div>
-        <span class="text-sm">Reduce interest over time</span>
-      </div>
-      <div style="display:flex;align-items:center;">
-        <div style="width:28px;height:28px;background:rgba(27,58,107,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-        </div>
-        <span class="text-sm">Pay off your loan sooner</span>
-      </div>
-    </div>
-
-    <!-- 5. Tour Banner -->
-    <div class="card mb-6">
-      <div style="display:flex;align-items:center;">
-        <span class="text-sm fw-500" style="flex:1;">New here? Take a 60-second tour of your dashboard.</span>
-        <button class="btn btn-sm btn-primary" style="margin-left:12px;white-space:nowrap;">Start Tour</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="pci-badge">🔒 PCI Compliant</span>
+        <span style="font-size:11px;color:rgba(255,255,255,.65);">Since 2003 · Orlando, FL</span>
       </div>
     </div>
 
   </div>
 </div>
+
+<!-- Floating Nav -->
+<nav class="float-nav">
+  <a href="/draft2/12-dashboard.html" class="fn-item active" style="position:relative;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a href="/draft2/13-schedule.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Schedule
+  </a>
+  <a href="/draft2/14-history.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    History
+  </a>
+  <a href="/draft2/15-profile.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </a>
+</nav>
+
+<script>
+function showAch(icon, title, msg) {
+  document.getElementById('ach-icon').textContent = icon;
+  document.getElementById('ach-title').textContent = title;
+  document.getElementById('ach-msg').textContent = msg;
+  const toast = document.getElementById('ach-toast');
+  toast.classList.add('show');
+  launchConfetti();
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = [];
+  const colors = ['#f59e0b','#10b981','#3b82f6','#ef4444','#8b5cf6','#06b6d4','#f97316'];
+  for (let i = 0; i < 120; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 200,
+      w: 6 + Math.random() * 8,
+      h: 3 + Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 4,
+      vy: 2 + Math.random() * 5,
+      angle: Math.random() * 360,
+      spin: (Math.random() - 0.5) * 8,
+      alpha: 1
+    });
+  }
+  let frame;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    for (const p of pieces) {
+      p.x += p.vx; p.y += p.vy; p.angle += p.spin; p.alpha -= 0.012;
+      if (p.alpha > 0 && p.y < canvas.height) alive = true;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    if (alive) frame = requestAnimationFrame(draw);
+    else { ctx.clearRect(0, 0, canvas.width, canvas.height); cancelAnimationFrame(frame); }
+  }
+  draw();
+}
+
+// Auto-show first achievement on load
+setTimeout(() => showAch('🔥','47-Day Streak!','Keep it up! 43 more days to unlock 90-Day Champion'), 1200);
+</script>
 </body>
 </html>

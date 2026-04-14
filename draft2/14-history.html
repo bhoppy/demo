@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — History</title>
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="phone-frame">
+  <div class="page-header">
+    <a href="/draft2/12-dashboard.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+
+    <h1 style="font-size:20px;font-weight:700;margin-bottom:4px;">History</h1>
+    <p class="subtitle" style="margin-bottom:16px;">47 payments · $16,074 processed</p>
+
+    <!-- Tabs -->
+    <div class="history-tabs">
+      <div class="htab active" id="tab-txn" onclick="switchTab('txn')">Transactions</div>
+      <div class="htab" id="tab-alerts" onclick="switchTab('alerts')">Alerts</div>
+    </div>
+
+    <!-- Transactions Panel -->
+    <div id="panel-txn">
+      <!-- Summary -->
+      <div class="card mb-4" style="display:flex;gap:0;padding:0;overflow:hidden;">
+        <div style="flex:1;padding:14px;text-align:center;border-right:1px solid var(--border);">
+          <div style="font-size:20px;font-weight:700;color:var(--success);">47</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">Processed</div>
+        </div>
+        <div style="flex:1;padding:14px;text-align:center;border-right:1px solid var(--border);">
+          <div style="font-size:20px;font-weight:700;color:var(--error);">1</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">Failed</div>
+        </div>
+        <div style="flex:1;padding:14px;text-align:center;">
+          <div style="font-size:20px;font-weight:700;color:var(--accent);">$16,074</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">Total</div>
+        </div>
+      </div>
+
+      <div class="card" id="txn-list"></div>
+    </div>
+
+    <!-- Alerts Panel -->
+    <div id="panel-alerts" style="display:none;">
+      <div class="card" id="alert-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Floating Nav -->
+<nav class="float-nav">
+  <a href="/draft2/12-dashboard.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a href="/draft2/13-schedule.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Schedule
+  </a>
+  <a href="/draft2/14-history.html" class="fn-item active" style="position:relative;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    History
+  </a>
+  <a href="/draft2/15-profile.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </a>
+</nav>
+
+<script>
+const TRANSACTIONS = [
+  {date:'Apr 14, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Mar 31, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Mar 17, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Mar 3, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Feb 18, 2026',desc:'Biweekly ACH Debit — NSF',amount:'$342.00',type:'failed',status:'failed'},
+  {date:'Feb 4, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Jan 21, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Jan 7, 2026',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Dec 24, 2025',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+  {date:'Dec 10, 2025',desc:'Biweekly ACH Debit',amount:'$342.00',type:'debit',status:'processed'},
+];
+
+const ALERTS = [
+  {date:'Apr 14, 2026',icon:'✅',title:'Payment Processed',msg:'$342.00 debited from Chase ••••4821',type:'processed'},
+  {date:'Apr 8, 2026',icon:'📊',title:'Credit Score Update',msg:'Your TransUnion score changed: 742 (+4)',type:'alert'},
+  {date:'Mar 31, 2026',icon:'✅',title:'Payment Processed',msg:'$342.00 debited from Chase ••••4821',type:'processed'},
+  {date:'Mar 17, 2026',icon:'🏆',title:'Achievement Unlocked',msg:'30-Day Payment Streak earned! +75 pts',type:'achievement'},
+  {date:'Mar 3, 2026',icon:'✅',title:'Payment Processed',msg:'$342.00 debited from Chase ••••4821',type:'processed'},
+  {date:'Feb 25, 2026',icon:'🔔',title:'Payment Scheduled',msg:'Next debit: $342.00 on Mar 3, 2026',type:'alert'},
+  {date:'Feb 18, 2026',icon:'⚠️',title:'Payment Failed — NSF',msg:'Please ensure sufficient funds. We will retry.',type:'failed'},
+  {date:'Feb 15, 2026',icon:'📊',title:'Credit Monitoring Active',msg:'TransUnion credit monitoring activated',type:'achievement'},
+  {date:'Feb 4, 2026',icon:'✅',title:'Payment Processed',msg:'$342.00 debited from Chase ••••4821',type:'processed'},
+  {date:'Feb 1, 2026',icon:'🎉',title:'Welcome to AutoPayPlus!',msg:'Your payment automation is active.',type:'achievement'},
+];
+
+function renderTxns(){
+  const iconMap = {debit:'💳',failed:'❌'};
+  const typeClass = {processed:'processed',failed:'failed'};
+  document.getElementById('txn-list').innerHTML = TRANSACTIONS.map(t=>`
+    <div class="txn-row">
+      <div class="txn-icon ${t.type}">
+        ${t.type==='failed'?'❌':'💳'}
+      </div>
+      <div class="txn-body">
+        <div class="txn-title">${t.desc}</div>
+        <div class="txn-sub">${t.date}</div>
+      </div>
+      <div class="txn-amount ${t.status==='failed'?'failed':'debit'}">
+        ${t.status==='failed'?'⚠️ ':'-'}${t.amount}
+      </div>
+    </div>`).join('');
+}
+
+function renderAlerts(){
+  const bgMap = {processed:'processed',failed:'failed',alert:'alert',achievement:'processed'};
+  document.getElementById('alert-list').innerHTML = ALERTS.map(a=>`
+    <div class="txn-row">
+      <div class="txn-icon ${a.type==='failed'?'failed':a.type==='achievement'?'processed':'alert'}">
+        ${a.icon}
+      </div>
+      <div class="txn-body">
+        <div class="txn-title">${a.title}</div>
+        <div class="txn-sub">${a.msg}</div>
+        <div class="txn-sub" style="margin-top:3px;">${a.date}</div>
+      </div>
+    </div>`).join('');
+}
+
+function switchTab(tab){
+  document.getElementById('tab-txn').classList.toggle('active', tab==='txn');
+  document.getElementById('tab-alerts').classList.toggle('active', tab==='alerts');
+  document.getElementById('panel-txn').style.display = tab==='txn'?'':'none';
+  document.getElementById('panel-alerts').style.display = tab==='alerts'?'':'none';
+}
+
+renderTxns();
+renderAlerts();
+</script>
+</body>
+</html>

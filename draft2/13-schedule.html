@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Schedule</title>
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="phone-frame">
+  <div class="page-header">
+    <a href="/draft2/12-dashboard.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <h1 style="font-size:20px;font-weight:700;">Payment Schedule</h1>
+      <span class="pci-badge" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;font-size:10px;">🔒 ACH Secure</span>
+    </div>
+    <p class="subtitle" style="margin-bottom:20px;">2019 Honda Accord · Chase ••••4821 · $342.00 biweekly</p>
+
+    <!-- Calendar -->
+    <div class="card mb-4">
+      <div class="cal-header">
+        <button onclick="prevMonth()" style="background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-size:16px;">‹</button>
+        <div class="cal-month" id="cal-title">April 2026</div>
+        <button onclick="nextMonth()" style="background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-size:16px;">›</button>
+      </div>
+      <div class="cal-grid" id="cal-dow">
+        <div class="cal-dow">Su</div><div class="cal-dow">Mo</div><div class="cal-dow">Tu</div>
+        <div class="cal-dow">We</div><div class="cal-dow">Th</div><div class="cal-dow">Fr</div><div class="cal-dow">Sa</div>
+      </div>
+      <div class="cal-grid" id="cal-days"></div>
+    </div>
+
+    <!-- Upcoming debits -->
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Upcoming Debits</div>
+    <div class="card mb-4" id="upcoming-list"></div>
+
+    <!-- Change date button -->
+    <button class="btn btn-primary mb-3" onclick="openModal()">
+      Change ACH Debit Date
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </button>
+
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400e;margin-bottom:20px;">
+      ⚠️ Debit dates can be shifted <strong>±3 days</strong> from current schedule, <strong>one time only</strong>. Contact Member Support for additional changes.
+    </div>
+
+  </div>
+</div>
+
+<!-- Change date modal (bottom sheet) -->
+<div class="date-modal" id="date-modal" onclick="if(event.target===this)closeModal()">
+  <div class="date-modal-inner">
+    <div class="modal-handle"></div>
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:6px;">Change Debit Date</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Current: <strong>April 28, 2026</strong> · Shift by how many days?</p>
+    <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">Earlier ←</div>
+    <div class="day-adjust">
+      <button class="day-btn" onclick="selectShift(this,-3)">−3</button>
+      <button class="day-btn" onclick="selectShift(this,-2)">−2</button>
+      <button class="day-btn" onclick="selectShift(this,-1)">−1</button>
+      <button class="day-btn" onclick="selectShift(this,0)" style="color:var(--muted);font-size:12px;">None</button>
+      <button class="day-btn" onclick="selectShift(this,+1)">+1</button>
+      <button class="day-btn" onclick="selectShift(this,+2)">+2</button>
+      <button class="day-btn" onclick="selectShift(this,+3)">+3</button>
+    </div>
+    <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:16px;text-align:right;">→ Later</div>
+    <div id="new-date-preview" style="text-align:center;font-size:15px;font-weight:600;color:var(--text);background:var(--bg);border-radius:10px;padding:12px;margin-bottom:16px;">Select a shift above</div>
+    <button class="btn btn-primary mb-3" id="confirm-shift" onclick="confirmShift()" style="opacity:.4;pointer-events:none;">Confirm New Date</button>
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--muted);">🔒 PCI Compliant · This change is logged for your account record</div>
+  </div>
+</div>
+
+<!-- Floating Nav -->
+<nav class="float-nav">
+  <a href="/draft2/12-dashboard.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a href="/draft2/13-schedule.html" class="fn-item active" style="position:relative;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Schedule
+  </a>
+  <a href="/draft2/14-history.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    History
+  </a>
+  <a href="/draft2/15-profile.html" class="fn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </a>
+</nav>
+
+<script>
+// Calendar
+const DEBIT_DAYS = {4:{14:1,28:1},5:{12:1,26:1}};  // month(0-based) → days
+let viewYear=2026, viewMonth=3; // April 2026
+function renderCal(){
+  const title=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-title').textContent=title[viewMonth]+' '+viewYear;
+  const first=new Date(viewYear,viewMonth,1).getDay();
+  const days=new Date(viewYear,viewMonth+1,0).getDate();
+  const today=new Date();
+  const debitSet=DEBIT_DAYS[viewMonth]||{};
+  let html='';
+  for(let i=0;i<first;i++) html+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=days;d++){
+    const isToday=today.getFullYear()===viewYear&&today.getMonth()===viewMonth&&today.getDate()===d;
+    const isDebit=debitSet[d];
+    const isPast=new Date(viewYear,viewMonth,d)<today&&!isToday;
+    let cls='cal-day';
+    if(isToday&&isDebit) cls+=' debit';
+    else if(isDebit&&!isPast) cls+=' debit';
+    else if(isDebit&&isPast) cls+=' past-debit';
+    else if(isToday) cls+=' today';
+    html+=`<div class="${cls}">${d}</div>`;
+  }
+  document.getElementById('cal-days').innerHTML=html;
+  renderUpcoming();
+}
+function renderUpcoming(){
+  const upcoming=[
+    {date:'Apr 28, 2026',amount:'$342.00',status:'scheduled',dot:'#3b82f6'},
+    {date:'May 12, 2026',amount:'$342.00',status:'scheduled',dot:'#3b82f6'},
+    {date:'May 26, 2026',amount:'$342.00',status:'scheduled',dot:'#3b82f6'},
+  ];
+  document.getElementById('upcoming-list').innerHTML=upcoming.map(u=>`
+    <div class="debit-row">
+      <div class="date-tile"><div class="date-day">${u.date.split(' ')[1].replace(',','')}</div><div class="date-mon">${u.date.split(' ')[0].substring(0,3)}</div></div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);">${u.amount}</div>
+        <div style="font-size:12px;color:var(--muted);">Biweekly ACH Debit</div>
+      </div>
+      <span class="badge badge-info">${u.status}</span>
+    </div>`).join('');
+}
+function prevMonth(){ viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCal(); }
+function nextMonth(){ viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCal(); }
+renderCal();
+
+// Modal
+let selectedShift=null;
+function openModal(){ document.getElementById('date-modal').classList.add('open'); }
+function closeModal(){ document.getElementById('date-modal').classList.remove('open'); selectedShift=null; document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('selected')); document.getElementById('new-date-preview').textContent='Select a shift above'; document.getElementById('confirm-shift').style.opacity='.4'; document.getElementById('confirm-shift').style.pointerEvents='none'; }
+function selectShift(btn,days){
+  document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedShift=days;
+  const base=new Date(2026,3,28);
+  base.setDate(base.getDate()+days);
+  const opts={month:'long',day:'numeric',year:'numeric'};
+  const label=days===0?'No change — keep Apr 28, 2026':`New date: ${base.toLocaleDateString('en-US',opts)} (${days>0?'+':''}${days} days)`;
+  document.getElementById('new-date-preview').textContent=label;
+  if(days!==0){ document.getElementById('confirm-shift').style.opacity='1'; document.getElementById('confirm-shift').style.pointerEvents='auto'; }
+  else { document.getElementById('confirm-shift').style.opacity='.4'; document.getElementById('confirm-shift').style.pointerEvents='none'; }
+}
+function confirmShift(){
+  closeModal();
+  alert(`✅ Date changed! Your next debit has been rescheduled.\n\nNote: ACH debit date changes can only be made once. Contact Member Support for further adjustments.`);
+}
+</script>
+</body>
+</html>
