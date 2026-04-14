@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Agent Attestation</title>
+  <link rel="stylesheet" href="../draft2/shared.css">
+</head>
+<body>
+<div class="phone-frame">
+  <!-- Page Header -->
+  <div class="page-header">
+    <a href="03-phone-otp.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:12px;padding-bottom:8px;">
+      <img src="/logo.webp" alt="AutoPayPlus" style="height:32px;margin-bottom:12px;">
+    </div>
+
+    <!-- Badge -->
+    <div style="text-align:center;margin-bottom:16px;">
+      <span class="badge badge-warning" style="padding:4px 14px;font-weight:600;">DEALER AGENT &middot; Compliance Required</span>
+    </div>
+
+    <!-- Step Bar -->
+    <div class="step-bar" style="margin-top:20px;">
+      <span class="step-label">Attestation</span>
+      <div class="step-track"><div class="step-fill" style="width:57%"></div></div>
+    </div>
+
+    <!-- Icon & Header -->
+    <div class="icon-circle primary">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+    </div>
+    <h1>Agent Attestation</h1>
+    <p class="subtitle">Confirm in-person ID verification before proceeding.</p>
+
+    <!-- Session Details Card -->
+    <div class="card mb-4">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;">Session Details</div>
+
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:13px;color:var(--subtext);">Session ID</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);font-family:monospace;">DLR-4021-ATL</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:13px;color:var(--subtext);">Agent</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);">J. Rodriguez</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:13px;color:var(--subtext);">Transaction</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);">4/8/2026 10:47 AM</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;">
+        <span style="font-size:13px;color:var(--subtext);">Location</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text);text-align:right;">AutoNation Atlanta<br><span style="font-weight:400;color:var(--muted);font-size:11px;">33.749&deg; N, 84.387&deg; W</span></span>
+      </div>
+    </div>
+
+    <!-- Checkbox Attestation -->
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:14px;border-radius:var(--radius);border:2px solid var(--accent);background:#EFF6FF;margin-bottom:16px;cursor:pointer;" onclick="toggleCheck(this)">
+      <div id="check-box" style="width:22px;height:22px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <span style="font-size:14px;font-weight:500;color:var(--text);line-height:1.4;">I confirm I have verified this customer's government-issued photo ID in person.</span>
+    </div>
+
+    <!-- Red Warning -->
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--radius);background:var(--error-bg);margin-bottom:24px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div style="font-size:12px;color:var(--subtext);line-height:1.5;">This attestation is legally binding and stored with your session record. False attestation may result in account termination.</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- CTA -->
+    <a href="05-review.html" class="btn btn-primary mb-3">Continue</a>
+
+    <div class="security-footer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Secure and encrypted</span>
+    </div>
+  </div>
+</div>
+
+<script>
+let checked = true;
+function toggleCheck(el) {
+  checked = !checked;
+  const box = document.getElementById('check-box');
+  if(checked) {
+    box.style.background = 'var(--accent)';
+    box.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    el.style.borderColor = 'var(--accent)';
+    el.style.background = '#EFF6FF';
+  } else {
+    box.style.background = 'var(--card)';
+    box.innerHTML = '';
+    box.style.border = '2px solid var(--border)';
+    el.style.borderColor = 'var(--border)';
+    el.style.background = 'var(--card)';
+  }
+}
+</script>
+</body>
+</html>

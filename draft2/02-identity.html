@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Identity Verification</title>
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="phone-frame">
+  <!-- Page Header -->
+  <div class="page-header">
+    <a href="/draft2/01-magic-link.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+
+    <!-- Step Bar -->
+    <div class="step-bar" style="margin-top:20px;">
+      <span class="step-label">Identity</span>
+      <div class="step-track"><div class="step-fill" style="width:10%"></div></div>
+    </div>
+
+    <!-- Icon & Header -->
+    <div class="icon-circle primary">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <h1>Let's confirm it's you</h1>
+    <p class="subtitle">This helps us protect your account and payment plan.</p>
+
+    <!-- Toggle -->
+    <div class="toggle-tabs">
+      <button class="toggle-tab active" onclick="showDOB()">Date of Birth</button>
+      <button class="toggle-tab" onclick="showSSN()">Last 4 of SSN</button>
+    </div>
+
+    <!-- DOB Input -->
+    <div id="dob-input" class="input-group">
+      <label>Date of Birth</label>
+      <input type="text" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDOB(this)">
+    </div>
+
+    <!-- SSN Input (hidden by default) -->
+    <div id="ssn-input" class="input-group" style="display:none;">
+      <label>Last 4 digits of SSN</label>
+      <div class="input-wrapper">
+        <input type="password" placeholder="••••" maxlength="4" inputmode="numeric">
+        <button class="toggle-pw" onclick="togglePW(this)">👁</button>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- CTAs -->
+    <a href="/draft2/03-choose-mfa.html" class="btn btn-primary mb-3">Continue</a>
+    <button class="btn btn-ghost mb-3">Having trouble?</button>
+
+    <div class="security-footer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Your information is encrypted and secure.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function showDOB() {
+  document.getElementById('dob-input').style.display = '';
+  document.getElementById('ssn-input').style.display = 'none';
+  document.querySelectorAll('.toggle-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+}
+function showSSN() {
+  document.getElementById('dob-input').style.display = 'none';
+  document.getElementById('ssn-input').style.display = '';
+  document.querySelectorAll('.toggle-tab').forEach((t,i) => t.classList.toggle('active', i===1));
+}
+function formatDOB(el) {
+  let v = el.value.replace(/\D/g,'');
+  if(v.length>2) v = v.slice(0,2)+'/'+v.slice(2);
+  if(v.length>5) v = v.slice(0,5)+'/'+v.slice(5);
+  el.value = v.slice(0,10);
+}
+function togglePW(btn) {
+  const inp = btn.parentElement.querySelector('input');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>

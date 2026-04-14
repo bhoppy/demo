@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoPayPlus | Member Portal</title>
+  <meta name="description" content="AutoPayPlus biweekly payment program - member onboarding and portal">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',system-ui,sans-serif;background:#f9fafb;min-height:100vh;color:#111827;}
+    a{text-decoration:none;color:inherit;}
+    .app{max-width:430px;margin:0 auto;background:#fff;min-height:100vh;}
+
+    /* Header */
+    .header{padding:48px 24px 8px;display:flex;flex-direction:column;align-items:center;}
+    .header img{height:40px;width:auto;}
+    .header-sub{font-size:11px;font-weight:700;letter-spacing:.3em;color:#9ca3af;text-transform:uppercase;margin-top:10px;}
+
+    /* Menu label */
+    .menu-label{padding:20px 20px 4px;text-align:center;}
+    .menu-label p{font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.12em;}
+    .menu-label small{font-size:12px;color:#9ca3af;margin-top:2px;display:block;}
+
+    /* Portal cards */
+    .portals{padding:0 20px;display:flex;flex-direction:column;gap:14px;}
+    .portal-card{
+      display:flex;align-items:center;justify-content:space-between;
+      border-radius:16px;padding:22px 22px;
+      text-decoration:none;transition:transform .15s,box-shadow .15s;
+      cursor:pointer;border:none;width:100%;text-align:left;
+    }
+    .portal-card:active{transform:scale(.98);}
+    .portal-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.15);}
+    .portal-card.green{background:#16a34a;}
+    .portal-card.blue{background:#1d4ed8;}
+    .portal-card.orange{background:#ea580c;}
+    .pc-left{}
+    .pc-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px;}
+    .pc-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
+    .pc-desc{font-size:13px;color:rgba(255,255,255,.8);line-height:1.45;max-width:220px;}
+    .pc-icon{
+      width:48px;height:48px;border-radius:12px;
+      background:rgba(255,255,255,.2);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;margin-left:16px;
+    }
+
+    /* Timeline */
+    .timeline-section{padding:32px 20px 8px;}
+    .tl-header{text-align:center;margin-bottom:20px;}
+    .tl-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af;margin-bottom:6px;}
+    .tl-title{font-size:17px;font-weight:700;color:#1f2937;}
+    .tl-sub{font-size:12px;color:#9ca3af;margin-top:4px;}
+
+    .tl-wrap{position:relative;}
+    .tl-line{position:absolute;left:19px;top:16px;bottom:16px;width:2px;background:#e5e7eb;z-index:0;}
+
+    .tl-group{margin-bottom:20px;}
+    .tl-group-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;position:relative;z-index:1;}
+    .tl-num{
+      width:38px;height:38px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-size:12px;font-weight:700;flex-shrink:0;
+    }
+    .tl-phase{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+
+    .tl-items{margin-left:50px;display:flex;flex-direction:column;gap:8px;}
+    .tl-item{
+      background:#fff;border:1px solid #f3f4f6;border-radius:12px;
+      padding:12px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+    }
+    .tl-item.nudge{background:#fffbeb;border-color:#fde68a;}
+    .tl-item-left{flex:1;min-width:0;}
+    .tl-item-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+    .nudge-badge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:2px 6px;border-radius:4px;letter-spacing:.05em;text-transform:uppercase;}
+    .tl-item-title{font-size:13px;font-weight:600;color:#1f2937;}
+    .tl-item-desc{font-size:12px;color:#6b7280;margin-top:2px;line-height:1.45;}
+    .tl-item-right{flex-shrink:0;text-align:right;}
+    .tl-time{font-size:10px;font-weight:600;display:block;}
+    .tl-channel{font-size:9px;color:#9ca3af;margin-top:2px;display:block;}
+
+    /* Metrics */
+    .metrics{margin:0 20px 20px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:16px;padding:20px;}
+    .metrics-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1d4ed8;margin-bottom:12px;}
+    .metric-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e5e7eb;}
+    .metric-row:last-child{border-bottom:none;}
+    .metric-label{font-size:12px;color:#374151;}
+    .metric-vals{display:flex;align-items:center;gap:8px;}
+    .metric-before{font-size:12px;color:#9ca3af;text-decoration:line-through;}
+    .metric-after{font-size:12px;font-weight:700;}
+
+    /* Simplification */
+    .simplify{margin:0 20px 24px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:16px;padding:20px;}
+    .simplify-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1e40af;margin-bottom:14px;}
+    .simplify-nums{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+    .simplify-num{text-align:center;flex:1;}
+    .simplify-num .n{font-size:28px;font-weight:700;}
+    .simplify-num .n.gray{color:#d1d5db;}
+    .simplify-num .n.blue{color:#1d4ed8;}
+    .simplify-num .lbl{font-size:10px;color:#6b7280;margin-top:2px;}
+    .simplify-arrow{font-size:20px;color:#d1d5db;}
+    .simplify-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+    .simplify-step-num{
+      width:20px;height:20px;border-radius:50%;background:#1d4ed8;
+      color:#fff;font-size:10px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+    }
+    .simplify-step-text{font-size:12px;color:#374151;line-height:1.5;}
+    .simplify-step-text strong{color:#1f2937;}
+
+    .footer{padding:24px;text-align:center;}
+    .footer p{font-size:10px;color:#d1d5db;}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <img src="/logo.webp" alt="AutoPayPlus">
+    <p class="header-sub">Prototype</p>
+  </div>
+
+  <div class="menu-label">
+    <p>Menu</p>
+    <small>Click a portal to get started</small>
+  </div>
+
+  <div class="portals">
+    <a href="/draft2/01-magic-link.html" class="portal-card green">
+      <div class="pc-left">
+        <div class="pc-eyebrow">Prospect Portal</div>
+        <div class="pc-title">First Steps</div>
+        <div class="pc-desc">Tap the SMS link after leaving the dealership to confirm your account and get started.</div>
+      </div>
+      <div class="pc-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+      </div>
+    </a>
+
+    <a href="/draft2/12-dashboard.html" class="portal-card blue">
+      <div class="pc-left">
+        <div class="pc-eyebrow">Member Portal</div>
+        <div class="pc-title">My Account</div>
+        <div class="pc-desc">Sign in to view your dashboard, credit score, payments, and VIP rewards.</div>
+      </div>
+      <div class="pc-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+    </a>
+
+    <a href="/partner/01-customer-info.html" class="portal-card orange">
+      <div class="pc-left">
+        <div class="pc-eyebrow">Partner Portal</div>
+        <div class="pc-title">F&amp;I Enrollment</div>
+        <div class="pc-desc">Dealer agents: enroll new customers at the point of sale.</div>
+      </div>
+      <div class="pc-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+    </a>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-section">
+    <div class="tl-header">
+      <div class="tl-eyebrow">Automated Retention Engine</div>
+      <div class="tl-title">Member Journey &amp; Nudge Sequence</div>
+      <div class="tl-sub">What happens when a member stalls — every step has a safety net</div>
+    </div>
+
+    <div class="tl-wrap">
+      <div class="tl-line"></div>
+
+      <!-- Stage 1 -->
+      <div class="tl-group">
+        <div class="tl-group-header">
+          <div class="tl-num" style="background:#ea580c;">1</div>
+          <div class="tl-phase" style="color:#ea580c;">At Dealer</div>
+        </div>
+        <div class="tl-items">
+          <div class="tl-item">
+            <div class="tl-item-left">
+              <div class="tl-item-title">E-Sign Complete</div>
+              <div class="tl-item-desc">F&amp;I process ends, enrollment triggered</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#ea580c;">T+0</span>
+              <span class="tl-channel">In-person</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-item-left">
+              <div class="tl-item-title">SMS Sent to Member</div>
+              <div class="tl-item-desc">Magic link to First Steps Portal — no PII in body</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#ea580c;">Immediate</span>
+              <span class="tl-channel">SMS · Twilio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="tl-group">
+        <div class="tl-group-header">
+          <div class="tl-num" style="background:#1d4ed8;">2</div>
+          <div class="tl-phase" style="color:#1d4ed8;">First 24 Hours</div>
+        </div>
+        <div class="tl-items">
+          <div class="tl-item">
+            <div class="tl-item-left">
+              <div class="tl-item-title">Welcome Email</div>
+              <div class="tl-item-desc">Debit date + amount above fold, portal link, welcome video</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#1d4ed8;">24 hrs</span>
+              <span class="tl-channel">Email</span>
+            </div>
+          </div>
+          <div class="tl-item nudge">
+            <div class="tl-item-left">
+              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
+              <div class="tl-item-title">No Portal Login?</div>
+              <div class="tl-item-desc">48-hr reminder email + SMS with portal activation link</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#1d4ed8;">48 hrs</span>
+              <span class="tl-channel">Email + SMS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="tl-group">
+        <div class="tl-group-header">
+          <div class="tl-num" style="background:#7c3aed;">3</div>
+          <div class="tl-phase" style="color:#7c3aed;">Days 2–7</div>
+        </div>
+        <div class="tl-items">
+          <div class="tl-item nudge">
+            <div class="tl-item-left">
+              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
+              <div class="tl-item-title">Still No Login?</div>
+              <div class="tl-item-desc">72-hr open enrollment reminder — highlights credit monitoring</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#7c3aed;">72 hrs</span>
+              <span class="tl-channel">SMS</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-item-left">
+              <div class="tl-item-title">Welcome Call Queue</div>
+              <div class="tl-item-desc">Added to Five9 outbound — agent confirms debit + gets member logged in</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#7c3aed;">Day 1–7</span>
+              <span class="tl-channel">Phone · Five9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="tl-group">
+        <div class="tl-group-header">
+          <div class="tl-num" style="background:#dc2626;">4</div>
+          <div class="tl-phase" style="color:#dc2626;">Stall Recovery</div>
+        </div>
+        <div class="tl-items">
+          <div class="tl-item nudge">
+            <div class="tl-item-left">
+              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
+              <div class="tl-item-title">Auth Wall (50.9% drop)</div>
+              <div class="tl-item-desc">Magic link re-send + session persistence fix for returning members</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#dc2626;">On stall</span>
+              <span class="tl-channel">Email + SMS</span>
+            </div>
+          </div>
+          <div class="tl-item nudge">
+            <div class="tl-item-left">
+              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
+              <div class="tl-item-title">Ver Fee Rejected</div>
+              <div class="tl-item-desc">62.7% early cancel rate — outbound call to collect $2.99</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#dc2626;">~7 days</span>
+              <span class="tl-channel">Phone · Five9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 5 -->
+      <div class="tl-group">
+        <div class="tl-group-header">
+          <div class="tl-num" style="background:#16a34a;">5</div>
+          <div class="tl-phase" style="color:#16a34a;">Activated Member</div>
+        </div>
+        <div class="tl-items">
+          <div class="tl-item">
+            <div class="tl-item-left">
+              <div class="tl-item-title">Dashboard Access</div>
+              <div class="tl-item-desc">Credit score, payment tracking, VIP Rewards — value delivered</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#16a34a;">Activation</span>
+              <span class="tl-channel">In-app</span>
+            </div>
+          </div>
+          <div class="tl-item nudge">
+            <div class="tl-item-left">
+              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
+              <div class="tl-item-title">Re-enrollment Nudge</div>
+              <div class="tl-item-desc">6-month open enrollment window — currently 77–81% unaware</div>
+            </div>
+            <div class="tl-item-right">
+              <span class="tl-time" style="color:#16a34a;">Month 6+</span>
+              <span class="tl-channel">Email + SMS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end tl-wrap -->
+  </div><!-- end timeline-section -->
+
+  <!-- Metrics -->
+  <div class="metrics">
+    <div class="metrics-title">Current Funnel (Mar 2026) → Target with Phase 2</div>
+    <div class="metric-row">
+      <span class="metric-label">Auth Completion (Wall 1)</span>
+      <div class="metric-vals">
+        <span class="metric-before">49.1%</span>
+        <span class="metric-after" style="color:#dc2626;">&gt;75%</span>
+      </div>
+    </div>
+    <div class="metric-row">
+      <span class="metric-label">TU KBA Pass-through (Wall 2)</span>
+      <div class="metric-vals">
+        <span class="metric-before">70.5%</span>
+        <span class="metric-after" style="color:#dc2626;">&gt;90%</span>
+      </div>
+    </div>
+    <div class="metric-row">
+      <span class="metric-label">Overall Conversion</span>
+      <div class="metric-vals">
+        <span class="metric-before">18%</span>
+        <span class="metric-after" style="color:#1d4ed8;">24–26%</span>
+      </div>
+    </div>
+    <div class="metric-row">
+      <span class="metric-label">Time to First Value</span>
+      <div class="metric-vals">
+        <span class="metric-before">44 days</span>
+        <span class="metric-after" style="color:#1d4ed8;">&lt;21 days</span>
+      </div>
+    </div>
+    <div class="metric-row">
+      <span class="metric-label">Est. Additional Members/mo</span>
+      <div class="metric-vals">
+        <span class="metric-before">—</span>
+        <span class="metric-after" style="color:#16a34a;">+400–500</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simplification -->
+  <div class="simplify">
+    <div class="simplify-title">Communication Simplification</div>
+    <div class="simplify-nums">
+      <div class="simplify-num">
+        <div class="n gray" style="text-decoration:line-through;">22+</div>
+        <div class="lbl">Steps Before</div>
+      </div>
+      <div class="simplify-arrow">→</div>
+      <div class="simplify-num">
+        <div class="n blue">3 + Nudges</div>
+        <div class="lbl">Core Moments</div>
+      </div>
+    </div>
+    <div class="simplify-step">
+      <div class="simplify-step-num">1</div>
+      <div class="simplify-step-text"><strong>At Dealer:</strong> E-sign → SMS → Dealer code</div>
+    </div>
+    <div class="simplify-step">
+      <div class="simplify-step-num">2</div>
+      <div class="simplify-step-text"><strong>First Steps Portal:</strong> Verify → Secure access → TU → Dashboard</div>
+    </div>
+    <div class="simplify-step">
+      <div class="simplify-step-num">3</div>
+      <div class="simplify-step-text"><strong>Automated Nudges:</strong> Email/SMS triggers when member stalls at any step</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Phase 2 Prototype | Retention Team | April 2026</p>
+  </div>
+
+</div>
+</body>
+</html>

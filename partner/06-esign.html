@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Sign &amp; Enroll</title>
+  <link rel="stylesheet" href="../draft2/shared.css">
+  <style>
+    .agreement-scroll {
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 14px;
+      font-size: 12px;
+      color: var(--subtext);
+      line-height: 1.6;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      margin-bottom: 20px;
+    }
+    .agreement-scroll h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 12px 0 6px;
+    }
+    .agreement-scroll h3:first-child {
+      margin-top: 0;
+    }
+    .signature-pad {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      text-align: center;
+      background: var(--card);
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .signature-pad:hover {
+      border-color: var(--accent);
+    }
+    .signature-text {
+      font-family: 'Dancing Script', cursive, 'Georgia', serif;
+      font-size: 28px;
+      color: var(--primary);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <!-- Page Header -->
+  <div class="page-header">
+    <a href="05-review.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:12px;padding-bottom:8px;">
+      <img src="/logo.webp" alt="AutoPayPlus" style="height:32px;margin-bottom:12px;">
+    </div>
+
+    <!-- Step Bar -->
+    <div class="step-bar" style="margin-top:20px;">
+      <span class="step-label">Sign & Enroll</span>
+      <div class="step-track"><div class="step-fill" style="width:85%"></div></div>
+    </div>
+
+    <!-- Header -->
+    <h1>Sign &amp; Enroll</h1>
+    <p class="subtitle">Review the agreement below and sign to complete enrollment.</p>
+
+    <!-- Scrollable Agreement -->
+    <div class="agreement-scroll">
+      <h3>ACH Authorization Agreement</h3>
+      <p>By signing below, I, Marcus Thompson, authorize AutoPayPlus, LLC to initiate Automated Clearing House (ACH) debit entries from my designated bank account in the amount of $342.00 on a biweekly basis, beginning May 15, 2026.</p>
+      <p>I understand that this authorization will remain in full force and effect until I notify AutoPayPlus in writing that I wish to revoke it, with a minimum of 10 business days' notice prior to the next scheduled debit date.</p>
+      <p>I acknowledge that if any ACH debit is returned unpaid, AutoPayPlus may attempt to re-debit the payment up to two additional times and may assess a return payment fee as permitted by applicable state law.</p>
+
+      <h3>Terms &amp; Conditions</h3>
+      <p>By enrolling in the AutoPayPlus biweekly payment program, I agree to the following:</p>
+      <p>1. AutoPayPlus will debit my account every two weeks in the amount specified above.</p>
+      <p>2. Funds are held in a trust account and forwarded to my lender according to the payment schedule.</p>
+      <p>3. I may cancel this agreement at any time by contacting AutoPayPlus customer support at (800) 555-0199 or via the customer portal.</p>
+      <p>4. AutoPayPlus is not the lender and does not modify the terms of my original loan agreement.</p>
+      <p>5. I confirm that all information provided during enrollment is accurate and complete.</p>
+    </div>
+
+    <!-- Signature Area -->
+    <div style="font-size:13px;font-weight:500;color:var(--subtext);margin-bottom:8px;">Your Signature</div>
+    <div class="signature-pad" style="margin-bottom:24px;">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Tap to sign or type your name</div>
+      <div class="signature-text"><em>Marcus Thompson</em></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- CTA -->
+    <a href="07-complete.html" class="btn btn-primary mb-3" style="background:var(--success);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      Sign &amp; Enroll
+    </a>
+
+    <div class="security-footer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Secure and encrypted</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

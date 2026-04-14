@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "framework": null,
+  "routes": [
+    {
+      "src": "/draft2/(.*)",
+      "dest": "/draft2/$1"
+    },
+    {
+      "src": "/partner/(.*)",
+      "dest": "/partner/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Create Login</title>
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="phone-frame">
+  <!-- Page Header -->
+  <div class="page-header">
+    <a href="/draft2/05-confirm-contact.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
+    <img src="/logo.webp" alt="AutoPayPlus">
+  </div>
+  <div class="screen">
+
+    <div class="step-bar" style="margin-top:20px;">
+      <span class="step-label">Create Login</span>
+      <div class="step-track"><div class="step-fill" style="width:50%"></div></div>
+    </div>
+
+    <div class="icon-circle primary">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.78 7.78 5.5 5.5 0 0 1 7.78-7.78zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+    </div>
+    <h1>Secure your access</h1>
+    <p class="subtitle">Create your login so you can manage your plan anytime.</p>
+
+    <div class="input-group">
+      <label>Username</label>
+      <input type="text" placeholder="Choose a username" id="username" oninput="checkForm()">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <div class="input-wrapper">
+        <input type="password" placeholder="Create a password" id="password" oninput="checkPassword()">
+        <button class="toggle-pw" onclick="togglePW(this)">👁</button>
+      </div>
+    </div>
+
+    <!-- Password Rules -->
+    <div class="pw-rules" id="pw-rules">
+      <div class="pw-rule" data-rule="length"><span>○</span> 8+ characters</div>
+      <div class="pw-rule" data-rule="upper"><span>○</span> 1 uppercase letter</div>
+      <div class="pw-rule" data-rule="number"><span>○</span> 1 number</div>
+      <div class="pw-rule" data-rule="special"><span>○</span> 1 special character</div>
+    </div>
+
+    <div class="input-group">
+      <label>Confirm Password</label>
+      <div class="input-wrapper">
+        <input type="password" placeholder="Re-enter your password" id="confirm-pw" oninput="checkForm()">
+        <button class="toggle-pw" onclick="togglePW(this)">👁</button>
+      </div>
+      <div id="match-error" style="font-size:12px;color:var(--error);margin-top:4px;display:none;">Passwords do not match</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <a href="/draft2/07-payment-method.html" class="btn btn-primary mb-3" id="submit-btn" style="pointer-events:none;opacity:0.5;">Create Account</a>
+    <a href="/draft2/05-confirm-contact.html" class="btn btn-ghost">Back</a>
+
+    <div class="security-footer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Protected with bank-level security</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePW(btn) {
+  const inp = btn.parentElement.querySelector('input');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+
+const rules = {
+  length: pw => pw.length >= 8,
+  upper:  pw => /[A-Z]/.test(pw),
+  number: pw => /\d/.test(pw),
+  special:pw => /[!@#$%^&*(),.?":{}|<>]/.test(pw),
+};
+
+let allRulesPass = false;
+
+function checkPassword() {
+  const pw = document.getElementById('password').value;
+  allRulesPass = true;
+  document.querySelectorAll('.pw-rule').forEach(el => {
+    const rule = el.dataset.rule;
+    const pass = rules[rule](pw);
+    if(!pass) allRulesPass = false;
+    el.classList.toggle('pass', pass);
+    el.querySelector('span').textContent = pass ? '✓' : '○';
+  });
+  checkForm();
+}
+
+function checkForm() {
+  const username = document.getElementById('username').value;
+  const pw = document.getElementById('password').value;
+  const cpw = document.getElementById('confirm-pw').value;
+  const match = pw === cpw && cpw.length > 0;
+  const btn = document.getElementById('submit-btn');
+  const err = document.getElementById('match-error');
+
+  err.style.display = cpw.length > 0 && !match ? '' : 'none';
+
+  const valid = username && allRulesPass && match;
+  btn.style.pointerEvents = valid ? '' : 'none';
+  btn.style.opacity = valid ? '1' : '0.5';
+}
+</script>
+</body>
+</html>
