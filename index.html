@@ -1,453 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoPayPlus | Member Portal</title>
-  <meta name="description" content="AutoPayPlus biweekly payment program - member onboarding and portal">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Inter',system-ui,sans-serif;background:#f9fafb;min-height:100vh;color:#111827;}
-    a{text-decoration:none;color:inherit;}
-    .app{max-width:430px;margin:0 auto;background:#fff;min-height:100vh;}
-
-    /* Header */
-    .header{padding:48px 24px 8px;display:flex;flex-direction:column;align-items:center;}
-    .header img{height:40px;width:auto;}
-    .header-sub{font-size:11px;font-weight:700;letter-spacing:.3em;color:#9ca3af;text-transform:uppercase;margin-top:10px;}
-
-    /* Menu label */
-    .menu-label{padding:20px 20px 4px;text-align:center;}
-    .menu-label p{font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.12em;}
-    .menu-label small{font-size:12px;color:#9ca3af;margin-top:2px;display:block;}
-
-    /* Portal cards */
-    .portals{padding:0 20px;display:flex;flex-direction:column;gap:14px;}
-    .portal-card{
-      display:flex;align-items:center;justify-content:space-between;
-      border-radius:16px;padding:22px 22px;
-      text-decoration:none;transition:transform .15s,box-shadow .15s;
-      cursor:pointer;border:none;width:100%;text-align:left;
-    }
-    .portal-card:active{transform:scale(.98);}
-    .portal-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.15);}
-    .portal-card.green{background:#16a34a;}
-    .portal-card.blue{background:#1d4ed8;}
-    .portal-card.orange{background:#ea580c;}
-    .pc-left{}
-    .pc-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px;}
-    .pc-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
-    .pc-desc{font-size:13px;color:rgba(255,255,255,.8);line-height:1.45;max-width:220px;}
-    .pc-icon{
-      width:48px;height:48px;border-radius:12px;
-      background:rgba(255,255,255,.2);
-      display:flex;align-items:center;justify-content:center;
-      flex-shrink:0;margin-left:16px;
-    }
-
-    /* Timeline */
-    .timeline-section{padding:32px 20px 8px;}
-    .tl-header{text-align:center;margin-bottom:20px;}
-    .tl-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af;margin-bottom:6px;}
-    .tl-title{font-size:17px;font-weight:700;color:#1f2937;}
-    .tl-sub{font-size:12px;color:#9ca3af;margin-top:4px;}
-
-    .tl-wrap{position:relative;}
-    .tl-line{position:absolute;left:19px;top:16px;bottom:16px;width:2px;background:#e5e7eb;z-index:0;}
-
-    .tl-group{margin-bottom:20px;}
-    .tl-group-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;position:relative;z-index:1;}
-    .tl-num{
-      width:38px;height:38px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      color:#fff;font-size:12px;font-weight:700;flex-shrink:0;
-    }
-    .tl-phase{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
-
-    .tl-items{margin-left:50px;display:flex;flex-direction:column;gap:8px;}
-    .tl-item{
-      background:#fff;border:1px solid #f3f4f6;border-radius:12px;
-      padding:12px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-    }
-    .tl-item.nudge{background:#fffbeb;border-color:#fde68a;}
-    .tl-item-left{flex:1;min-width:0;}
-    .tl-item-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
-    .nudge-badge{font-size:9px;font-weight:700;background:#fde68a;color:#92400e;padding:2px 6px;border-radius:4px;letter-spacing:.05em;text-transform:uppercase;}
-    .tl-item-title{font-size:13px;font-weight:600;color:#1f2937;}
-    .tl-item-desc{font-size:12px;color:#6b7280;margin-top:2px;line-height:1.45;}
-    .tl-item-right{flex-shrink:0;text-align:right;}
-    .tl-time{font-size:10px;font-weight:600;display:block;}
-    .tl-channel{font-size:9px;color:#9ca3af;margin-top:2px;display:block;}
-
-    /* Metrics */
-    .metrics{margin:0 20px 20px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:16px;padding:20px;}
-    .metrics-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1d4ed8;margin-bottom:12px;}
-    .metric-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e5e7eb;}
-    .metric-row:last-child{border-bottom:none;}
-    .metric-label{font-size:12px;color:#374151;}
-    .metric-vals{display:flex;align-items:center;gap:8px;}
-    .metric-before{font-size:12px;color:#9ca3af;text-decoration:line-through;}
-    .metric-after{font-size:12px;font-weight:700;}
-
-    /* Simplification */
-    .simplify{margin:0 20px 24px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:16px;padding:20px;}
-    .simplify-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1e40af;margin-bottom:14px;}
-    .simplify-nums{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
-    .simplify-num{text-align:center;flex:1;}
-    .simplify-num .n{font-size:28px;font-weight:700;}
-    .simplify-num .n.gray{color:#d1d5db;}
-    .simplify-num .n.blue{color:#1d4ed8;}
-    .simplify-num .lbl{font-size:10px;color:#6b7280;margin-top:2px;}
-    .simplify-arrow{font-size:20px;color:#d1d5db;}
-    .simplify-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-    .simplify-step-num{
-      width:20px;height:20px;border-radius:50%;background:#1d4ed8;
-      color:#fff;font-size:10px;font-weight:700;
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
-    }
-    .simplify-step-text{font-size:12px;color:#374151;line-height:1.5;}
-    .simplify-step-text strong{color:#1f2937;}
-
-    .footer{padding:24px;text-align:center;}
-    .footer p{font-size:10px;color:#d1d5db;}
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Welcome AGAIN to AutoPayPlus</title>
+<style>
+body{margin:0;background:#f5f5f5;font-family:sans-serif}
+.bar{background:#0C3A5E;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.bar a{color:#F5A623;font-size:13px;text-decoration:none}
+.bar span{font-size:13px;opacity:.7}
+.email-wrap{max-width:700px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+</style>
 </head>
 <body>
-<div class="app">
-
-  <div class="header">
-    <img src="/logo.webp" alt="AutoPayPlus">
-    <p class="header-sub">Prototype</p>
-  </div>
-
-  <div class="menu-label">
-    <p>Menu</p>
-    <small>Click a portal to get started</small>
-  </div>
-
-  <div class="portals">
-    <a href="/draft2/00-sms-enrollment.html" class="portal-card" style="background:linear-gradient(135deg,#ea580c,#c2410c);">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Pre-Portal · SMS</div>
-        <div class="pc-title">Enrollment Text</div>
-        <div class="pc-desc">What the member sees on their phone right after the dealer taps Enroll.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      </div>
-    </a>
-
-    <a href="/draft2/email-01-welcome.html" class="portal-card" style="background:linear-gradient(135deg,#0891b2,#0e7490);">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Pre-Portal · Email</div>
-        <div class="pc-title">Welcome Email</div>
-        <div class="pc-desc">Chris v3 — loan summary above fold, magic link CTA, How it Works explainer.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-    </a>
-
-    <a href="/draft2/01-magic-link.html" class="portal-card green">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Prospect Portal · Chris v3</div>
-        <div class="pc-title">First Steps (10 screens)</div>
-        <div class="pc-desc">Magic link → Identity → MFA → Contact → Login → Debit → TransUnion → Credit → Summary.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
-      </div>
-    </a>
-
-    <a href="/draft2/12-dashboard-multi.html" class="portal-card" style="background:linear-gradient(135deg,#16a34a,#15803d);">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Member Portal · Multi-Loan</div>
-        <div class="pc-title">Dashboard — Multi View</div>
-        <div class="pc-desc">3 loans on track · $687.25 combined · Honda + RAV4 + Mortgage. Chris v3.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      </div>
-    </a>
-
-    <a href="/draft2/12-dashboard.html" class="portal-card blue">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Member Portal</div>
-        <div class="pc-title">My Account</div>
-        <div class="pc-desc">Sign in to view your dashboard, credit score, payments, and VIP rewards.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      </div>
-    </a>
-
-    <a href="/partner/01-customer-info.html" class="portal-card orange">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Partner Portal · V1</div>
-        <div class="pc-title">F&amp;I Enrollment</div>
-        <div class="pc-desc">Dealer agents: enroll new customers at the point of sale.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-    </a>
-
-    <a href="/partner/vinny-v2.html" class="portal-card" style="background:linear-gradient(135deg,#7c3aed,#5b21b6);">
-      <div class="pc-left">
-        <div class="pc-eyebrow">Partner Portal · V2 — Vinny</div>
-        <div class="pc-title">F&amp;I Enrollment (V2)</div>
-        <div class="pc-desc">Updated dealer enrollment experience — Vinny's build.</div>
-      </div>
-      <div class="pc-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-    </a>
-  </div>
-
-  <!-- Timeline -->
-  <div class="timeline-section">
-    <div class="tl-header">
-      <div class="tl-eyebrow">Automated Retention Engine</div>
-      <div class="tl-title">Member Journey &amp; Nudge Sequence</div>
-      <div class="tl-sub">What happens when a member stalls — every step has a safety net</div>
-    </div>
-
-    <div class="tl-wrap">
-      <div class="tl-line"></div>
-
-      <!-- Stage 1 -->
-      <div class="tl-group">
-        <div class="tl-group-header">
-          <div class="tl-num" style="background:#ea580c;">1</div>
-          <div class="tl-phase" style="color:#ea580c;">At Dealer</div>
-        </div>
-        <div class="tl-items">
-          <div class="tl-item">
-            <div class="tl-item-left">
-              <div class="tl-item-title">E-Sign Complete</div>
-              <div class="tl-item-desc">F&amp;I process ends, enrollment triggered</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#ea580c;">T+0</span>
-              <span class="tl-channel">In-person</span>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-item-left">
-              <div class="tl-item-title">SMS Sent to Member</div>
-              <div class="tl-item-desc">Magic link to First Steps Portal — no PII in body</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#ea580c;">Immediate</span>
-              <span class="tl-channel">SMS · Twilio</span>
-              <a href="/draft2/00-sms-enrollment.html" style="font-size:11px;color:#ea580c;display:block;margin-top:4px;">View →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stage 2 -->
-      <div class="tl-group">
-        <div class="tl-group-header">
-          <div class="tl-num" style="background:#1d4ed8;">2</div>
-          <div class="tl-phase" style="color:#1d4ed8;">First 24 Hours</div>
-        </div>
-        <div class="tl-items">
-          <div class="tl-item">
-            <div class="tl-item-left">
-              <div class="tl-item-title">Welcome Email</div>
-              <div class="tl-item-desc">Debit date + amount above fold, portal link, welcome video</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#1d4ed8;">24 hrs</span>
-              <span class="tl-channel">Email</span>
-              <a href="/draft2/email-01-welcome.html" style="font-size:11px;color:#1d4ed8;display:block;margin-top:4px;">View →</a>
-            </div>
-          </div>
-          <div class="tl-item nudge">
-            <div class="tl-item-left">
-              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
-              <div class="tl-item-title">No Portal Login?</div>
-              <div class="tl-item-desc">48-hr reminder email + SMS with portal activation link</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#1d4ed8;">48 hrs</span>
-              <span class="tl-channel">Email + SMS</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stage 3 -->
-      <div class="tl-group">
-        <div class="tl-group-header">
-          <div class="tl-num" style="background:#7c3aed;">3</div>
-          <div class="tl-phase" style="color:#7c3aed;">Days 2–7</div>
-        </div>
-        <div class="tl-items">
-          <div class="tl-item nudge">
-            <div class="tl-item-left">
-              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
-              <div class="tl-item-title">Still No Login?</div>
-              <div class="tl-item-desc">72-hr open enrollment reminder — highlights credit monitoring</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#7c3aed;">72 hrs</span>
-              <span class="tl-channel">SMS</span>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-item-left">
-              <div class="tl-item-title">Welcome Call Queue</div>
-              <div class="tl-item-desc">Added to Five9 outbound — agent confirms debit + gets member logged in</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#7c3aed;">Day 1–7</span>
-              <span class="tl-channel">Phone · Five9</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stage 4 -->
-      <div class="tl-group">
-        <div class="tl-group-header">
-          <div class="tl-num" style="background:#dc2626;">4</div>
-          <div class="tl-phase" style="color:#dc2626;">Stall Recovery</div>
-        </div>
-        <div class="tl-items">
-          <div class="tl-item nudge">
-            <div class="tl-item-left">
-              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
-              <div class="tl-item-title">Auth Wall (50.9% drop)</div>
-              <div class="tl-item-desc">Magic link re-send + session persistence fix for returning members</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#dc2626;">On stall</span>
-              <span class="tl-channel">Email + SMS</span>
-            </div>
-          </div>
-          <div class="tl-item nudge">
-            <div class="tl-item-left">
-              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
-              <div class="tl-item-title">Ver Fee Rejected</div>
-              <div class="tl-item-desc">62.7% early cancel rate — outbound call to collect $2.99</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#dc2626;">~7 days</span>
-              <span class="tl-channel">Phone · Five9</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stage 5 -->
-      <div class="tl-group">
-        <div class="tl-group-header">
-          <div class="tl-num" style="background:#16a34a;">5</div>
-          <div class="tl-phase" style="color:#16a34a;">Activated Member</div>
-        </div>
-        <div class="tl-items">
-          <div class="tl-item">
-            <div class="tl-item-left">
-              <div class="tl-item-title">Dashboard Access</div>
-              <div class="tl-item-desc">Credit score, payment tracking, VIP Rewards — value delivered</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#16a34a;">Activation</span>
-              <span class="tl-channel">In-app</span>
-            </div>
-          </div>
-          <div class="tl-item nudge">
-            <div class="tl-item-left">
-              <div class="tl-item-badges"><span class="nudge-badge">Nudge</span></div>
-              <div class="tl-item-title">Re-enrollment Nudge</div>
-              <div class="tl-item-desc">6-month open enrollment window — currently 77–81% unaware</div>
-            </div>
-            <div class="tl-item-right">
-              <span class="tl-time" style="color:#16a34a;">Month 6+</span>
-              <span class="tl-channel">Email + SMS</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end tl-wrap -->
-  </div><!-- end timeline-section -->
-
-  <!-- Metrics -->
-  <div class="metrics">
-    <div class="metrics-title">Current Funnel (Mar 2026) → Target with Phase 2</div>
-    <div class="metric-row">
-      <span class="metric-label">Auth Completion (Wall 1)</span>
-      <div class="metric-vals">
-        <span class="metric-before">49.1%</span>
-        <span class="metric-after" style="color:#dc2626;">&gt;75%</span>
-      </div>
-    </div>
-    <div class="metric-row">
-      <span class="metric-label">TU KBA Pass-through (Wall 2)</span>
-      <div class="metric-vals">
-        <span class="metric-before">70.5%</span>
-        <span class="metric-after" style="color:#dc2626;">&gt;90%</span>
-      </div>
-    </div>
-    <div class="metric-row">
-      <span class="metric-label">Overall Conversion</span>
-      <div class="metric-vals">
-        <span class="metric-before">18%</span>
-        <span class="metric-after" style="color:#1d4ed8;">24–26%</span>
-      </div>
-    </div>
-    <div class="metric-row">
-      <span class="metric-label">Time to First Value</span>
-      <div class="metric-vals">
-        <span class="metric-before">44 days</span>
-        <span class="metric-after" style="color:#1d4ed8;">&lt;21 days</span>
-      </div>
-    </div>
-    <div class="metric-row">
-      <span class="metric-label">Est. Additional Members/mo</span>
-      <div class="metric-vals">
-        <span class="metric-before">—</span>
-        <span class="metric-after" style="color:#16a34a;">+400–500</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Simplification -->
-  <div class="simplify">
-    <div class="simplify-title">Communication Simplification</div>
-    <div class="simplify-nums">
-      <div class="simplify-num">
-        <div class="n gray" style="text-decoration:line-through;">22+</div>
-        <div class="lbl">Steps Before</div>
-      </div>
-      <div class="simplify-arrow">→</div>
-      <div class="simplify-num">
-        <div class="n blue">3 + Nudges</div>
-        <div class="lbl">Core Moments</div>
-      </div>
-    </div>
-    <div class="simplify-step">
-      <div class="simplify-step-num">1</div>
-      <div class="simplify-step-text"><strong>At Dealer:</strong> E-sign → SMS → Dealer code</div>
-    </div>
-    <div class="simplify-step">
-      <div class="simplify-step-num">2</div>
-      <div class="simplify-step-text"><strong>First Steps Portal:</strong> Verify → Secure access → TU → Dashboard</div>
-    </div>
-    <div class="simplify-step">
-      <div class="simplify-step-num">3</div>
-      <div class="simplify-step-text"><strong>Automated Nudges:</strong> Email/SMS triggers when member stalls at any step</div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>Phase 2 Prototype | Retention Team | April 2026</p>
-  </div>
+<div class="bar">
+  <a href="/">← Back to Index</a>
+  <span>|</span>
+  <span>Existing Flow · Welcome AGAIN to AutoPayPlus</span>
+</div>
+<div class="email-wrap">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; cellpadding: 0 !important; border: 0 !important; cellspacing: 0 !important; display: table !important; width: 100% !important; table-layout: fixed !important; border-collapse: seperate !important; float: none !important; border-spacing: 0px 0px !important; " align="left">
+<tbody style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; display: block !important; ">
+<tr style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; ">
+<td valign="middle" width="1px" bgcolor="#A6A6A6" cellpadding="7px 2px 7px 2px" style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; padding: 7px 2px 7px 2px !important; background-color: #A6A6A6 !important; valign: middle !important; width: 0px !important; ">
+</td>
+<td valign="middle" width="100%" bgcolor="#EAEAEA" cellpadding="7px 5px 7px 15px" color="#212121" style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; width: 100% !important; background-color: #EAEAEA !important; padding: 7px 5px 7px 15px !important; font-family: wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahoma, Arial, sans-serif !important; font-size: 12px !important; font-weight: normal !important; color: #212121 !important; text-align: left !important; word-wrap: break-word !important; ">
+<div style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; ">
+You don't often get email from donotreply@autopayplus.com. <a href="https://aka.ms/LearnAboutSenderIdentification" style="background: revert !important;color: revert !important;content-visibility: revert !important;direction: revert !important;display: revert !important;font-size: revert !important;opacity: revert !important;rotate: revert !important;scale: revert !important;visibility: revert !important;">
+Learn why this is important</a> </div>
+</td>
+<td valign="middle" align="left" width="75px" bgcolor="#EAEAEA" cellpadding="7px 5px 7px 5px" color="#212121" style=" aspect-ratio: revert !important; background: revert !important; block-size: revert !important; border: revert !important; bottom: revert !important; color: revert !important; color-scheme: revert !important; content-visibility: revert !important; cursor: revert !important; direction: revert !important; display: revert !important; font-size: revert !important; height: revert !important; hyphens: revert !important; letter-spacing: revert !important; line-height: revert !important; margin: revert !important; opacity: revert !important; order: revert !important; outline: revert !important; overflow: revert !important; padding: revert !important; position: revert !important; resize: revert !important; rotate: revert !important; scale: revert !important; tab-size: revert !important; table-layout: revert !important; text-align: revert !important; text-indent: revert !important; text-orientation: revert !important; text-overflow: revert !important; text-shadow: revert !important; text-transform: revert !important; text-wrap: revert !important; top: revert !important; transition: revert !important; user-select: revert !important; vertical-align: revert !important; visibility: revert !important; white-space: revert !important; width: revert !important; word-break: revert !important; word-spacing: revert !important; writing-mode: revert !important; zoom: revert !important; width: 75px !important; background-color: #EAEAEA !important; padding: 7px 5px 7px 5px !important; font-family: wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahoma, Arial, sans-serif !important; font-size: 12px !important; font-weight: normal !important; color: #212121 !important; text-align: left !important; word-wrap: break-word !important; align: left !important; ">
+</td>
+</tr>
+</tbody>
+</table>
+<div>
+<div class="preheader" style="font-size:1px; line-height:1px; display:none; color:#ffffff; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all;">
+Congratulations on taking another big step toward better financial wellness!&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌</div>
+<!DOCTYPE html>
+<title></title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--[if mso]>
+<xml><w:WordDocument xmlns:w="urn:schemas-microsoft-com:office:word"><w:DontUseAdvancedTypographyReadingMail/></w:WordDocument>
+<o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml>
+<![endif]--><style>
+*{box-sizing:border-box}body{margin:0;padding:0}a[x-apple-data-detectors]{color:inherit!important;text-decoration:inherit!important}#MessageViewBody a{color:inherit;text-decoration:none}p{line-height:inherit}.desktop_hide,.desktop_hide table{mso-hide:all;display:none;max-height:0;overflow:hidden}.image_block img+div{display:none}sub,sup{font-size:75%;line-height:0}#converted-body .list_block ol,#converted-body .list_block ul,.body [class~=x_list_block] ol,.body [class~=x_list_block] ul,u+.body .list_block ol,u+.body .list_block ul{padding-left:20px} @media (max-width:620px){.social_block.desktop_hide .social-table{display:inline-block!important}.mobile_hide{display:none}.row-content{width:100%!important}.stack .column{width:100%;display:block}.mobile_hide{min-height:0;max-height:0;max-width:0;overflow:hidden;font-size:0}.desktop_hide,.desktop_hide table{display:table!important;max-height:none!important}}
+</style><!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]-->
+<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff">
+<tbody>
+<tr>
+<td>
+<table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="25%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<div class="spacer_block block-1" style="height:10px;line-height:10px;font-size:1px">
+ </div>
+</td>
+<td class="column column-2" width="50%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="width:100%">
+<div class="alignment" align="center">
+<div style="max-width:300px"><a href="https://nam02.safelinks.protection.outlook.com/?url=http%3A%2F%2Fwww.autopayplus.com%2F%3Fbulk_email_rid%3D949&amp;data=05%7C02%7Compi%40autopayplus.com%7C8d71bf4244004bdbbc2f08de8068acc2%7C44b916d2cd4d4472b52cbeba78281998%7C1%7C0%7C639089384244697948%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=RadkkVSLtKzOj3YVbp1U1Xm3s%2FNLwgoqCoox%2FnMEx%2Fc%3D&amp;reserved=0" originalsrc="http://www.autopayplus.com/?bulk_email_rid=949" target="_blank"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/pkz/sl0/yzs/314203b3-988c-4b77-9a4e-6dfa2f6a1163.png" style="display:block;height:auto;border:0;width:100%" width="300" alt="AutoPayPlus logo with gear icon" title="AutoPayPlus logo with gear icon" height="auto"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="column column-3" width="25%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<div class="spacer_block block-1" style="height:1px;line-height:1px;font-size:1px">
+ </div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff;border-radius:0;color:#000;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="100%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="paragraph_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:11px;padding-top:5px">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:left;mso-line-height-alt:18px">
+<p style="margin:0">Hi Lonnie Key,<br>
+<br>
+Congratulations on taking another big step toward better financial wellness! You’re continuing to make wise decisions to stay organized and reach your payoff goals even sooner.<br>
+<br>
+By automating another one of your recurring payments, you’re further protecting your credit and accelerating your journey to becoming debt-free.<br>
+<br>
+Thank you for trusting us to be the team in your corner, helping you stay on track.<br>
+<br>
+Warmly,<br>
+<strong>AutoPayPlus</strong></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="100%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="divider_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad">
+<div class="alignment" align="center">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="divider_inner" style="font-size:1px;line-height:1px;border-top:1px solid #bbb">
+<span style="word-break: break-word;"> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:15px;padding-left:10px;padding-right:10px;padding-top:10px">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:center;mso-line-height-alt:18px">
+<p style="margin:0;margin-bottom:16px">**ACH fees still apply to any withdrawal for payments made for additional loan or account payments. For a copy of our privacy notice:</p>
+<p style="margin:0"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd-2FkNKhRAEQ5INM-2B4UHkk6Ys8aqQojeE4tumyMYPQqk4V2QVKZE21YzSuqnjgJ0H5Py5YFNjzdgKQXFLVfElXw-2ByPXvja9clwDo6x3c8aIS-2B64xS6otxH1NDTQwg3LLR3Y28K4u6kOTCMwBDNWWB-2FFFMx6-2Fthnk4G3WAsv3sfzKgeSLIL22tLjBlZiXd0N4MBm4-3D_DeE_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVHMSOHKAHUCOaLvOzdePd-2FfNJY1xzF2XR-2FvApemonN-2FyeNtTmF7wtWqyD72zUT9ZVRNNOGCnSo9vOZNmpT7PJO3B-2BCpdxnHnc79bY65uVCU7YPdxNhXu4CEI-2Fv2bPL1JLr1YFVSxPQf9Cuy32rR7IiQ-3D-3D" target="_blank" style="text-decoration: none; color: #0098e6;" rel="noopener"></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd-2BZEQEkWAvKtaAuu1DgbWEfBv39u-2BCuO3MEzvwaNeSdz-2Buc1CrunEV-2BCtNDcAFNBQWErxS2x76GEvq3hk-2FhHntgYEHUANbBq6Oq38j80n8ikQToaiZzqUrsw-2B4UWFulKt03lhkbFw83gCdDyaFASynIUCwkIPVmbxeWte2WIvG82I05xYcsZqx41asm4cB5WwI-3Dpz1T_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVCn6L68sdXNX2Z2ACgJzQyN6LucZsv54Hs6pojT6lK9FSuD0GN6HjdRsWo-2BMBKyAoPhm7C-2BjcDOXfoVZ9EyO9RSGy-2BR6lHI5a-2FW54mFEmvbUtiJLJ8JddCRoZEeh0miLUn8ULWbHt2HszmJIpFu067Q-3D-3D" target="_blank" style="text-decoration: underline; color: #0098e6;" rel="noopener"></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd9RnQdQbZig0vEMvps6yp7yCmR8LFwfEm-2FnDP1rDDiu2YRCxn7totMJ5KRwNxqPwBNer6fEZyVU11cLhgLTJ1yFJVtTjE87fKHxzfKC0n5WZ6qmRcQ0ffqx-2Bef48XdtvGtF5G2-2BINJWK0XK-2FW4z023WpkWwJNJ0IO2KOE59TzMOd9pPEIalK3Ul-2BJM-2F3eSZDJY-3D2VIQ_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVk8gcyEZCoAbDtoMpC3tGlALL9C-2BoQnG8OHcSJjH5iOe2v6CQhHHLFhfrxpDoxtS0eDz4f4IIvFx20QdVfgOvrzEoYiw7-2FqO6Gy-2BPl3hZy4U-2BpLY-2FS5nh900n4R7HGiHcZaylAgSLJlx8V6K0258zMA-3D-3D" target="_blank" style="text-decoration: none; color: #0098e6;" rel="noopener"></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd95hWPs9oZyt7i6ypahDOroxeO2XfNJxm7BS9l-2BXoaP6aX10gipQuwTQnBcK4IiAyoPF4KGmQWniiutoEknMJqwjJeCx0PyihqIMkOY1aqT14vA0NGkuqNBdvQyEJE44k9mW4ksiSeZG6GCeSLrgCaz8Ps-2B-2B6m9ZB8TdQ6uSQ3G-2BSxg6HfQJRdICrE5jX-2BPf5w-3DCZuT_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVzb6J1r-2BG0IOMBDGF1voNCCIIIB9AaazAZZnlLlLxoGBsjcHnzfC3a1qiOe4HVF7C6XkULatCU-2BDnTCAEsI758uGI9PlZKNnAL6DU2KhX6N88sn1KRTKw14oZZp8r1TMANss9k59Z81BmbU-2BxvNmKHg-3D-3D" target="_blank" style="text-decoration: underline; color: #0098e6;" rel="noopener"></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd-2BJWseu1wqftio0OGNpteLn9fcIaWRLPn-2BaDNojTq9-2FWppys9c8I3G1ypxUtUmnq38AvfPwO5IwTuk715VmwFECA7Y-2Bd-2BsORsDm2hdwhq03Nwl3J-2FU26NWiXe5TVpRGdmrF7HET48pWg-2BAqm1s2-2FVAoehOqA2YRy0GbnxXcw49CKn6ztVD9ZKWd1Zdb7fddq-2F0-3Dp1ca_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVFGXMw-2FBBrEoW-2BZoOsYLeOHK86qiYSqWjhtO4MIwHhKh1vBu6kUfejnPbtz7-2BnNmO7v9bwjS-2B7Cein72Qu-2BhIa6j4YnHk64-2BIjE4vGghDAO5hOQfIlTOb1E8VoVHwgfEC9nOxt2trOTHFRIhS2t6ZGw-3D-3D" target="_blank" style="text-decoration: underline; color: #0098e6;" rel="noopener"><strong>Vi</strong><strong>ew
+ Privacy </strong><strong>Notice</strong></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd-2FT8yGhNPXDyQ0MFqxL8GCITcAJIFYy0zXE8sMygKb3Vt-2Bq4WFjmkoaaJqRQwQ1e-2Bh9Zi4sdQk9kVTeMQz-2FRSdzFBtt2UUm20xz0rtAduBYor5anr4tDud-2FsNnw2xx-2FvWp4fXx1FgspU6hQ-2B3Vr-2BA8zWnGD2IrinMMw2ATp7JKIzrboQi8NIFZP-2B74cEd71-2BIA-3DITnC_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVAIfWJwZLhpLwSSbVUfZUFB6Ig7F4EhI-2FrItz9RZTud9mmv8Fjva1DFf4goApMKF-2B5u6JLaf2L2cP5poJVWiWtpn0Xk0i7Zxsc1Qns40ww22SVGt4sJExd-2FbABNMq4NqwAx9Rgo6z35I1pXvW4WiG9w-3D-3D" target="_blank" style="text-decoration: underline; color: #0098e6;" rel="noopener"></a><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pcQA3OzDRqFfyK2WQA-2FRvEm3CwYEjymaBqKDmiX-2FXBwVU7MVyK1guEDGy0HtytUxl7QJxJBqcONKu2BrBREzsmlYLekVH8tRLxr98jcKVzKiQtuYVe1LxqOX9VdqBCyd9-2BJc6VaySD1MRat9RyXghBhXOiY7tkZaocyBjzNqTVhZ0lFlWDREXcrRZd7liP-2F6IrK8xmpjPT6ULn0ygRvLq0aL0yxpzpm-2Fohr4xGkeRI-2B6B7EMzMLSOljpjKpFA8hdPIAy5HsHKorOq460v4y4sk0q1U9Ss83zmFuCIeCMJEE7GJYbPO-2FFicZ0R8q0fPOYU-3DT_y4_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVHq5c6NyOtFChCNZDEmGycrzM6v8UKhAEp3RxdrFaM5yabhYtHW3xYXxCunbzhNxK-2B0NOFQZELPEvo3dHvUfMEyyQirZtWq8c6RLbGvtbV2xrxRsxtqW2glAsrAIIRATOEBEW-2FK5VLzX0vOe-2FcAV9JQ-3D-3D" target="_blank" style="text-decoration: none; color: #0098e6;" rel="noopener"></a>
+</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="divider_block block-3" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad">
+<div class="alignment" align="center">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="divider_inner" style="font-size:1px;line-height:1px;border-top:1px solid #bbb">
+<span style="word-break: break-word;"> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-4" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;background-color:#fff;border-left:6px solid #0098e6;border-right:6px solid #0098e6;border-top:6px solid #0098e6;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="33.333333333333336%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="width:100%">
+<div class="alignment" align="center">
+<div style="max-width:196px"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/ex5/zb7/ybf/f8492c26-be83-490b-8d43-dfec720cbe8d.png" style="display:block;height:auto;border:0;width:100%" width="196" alt="phone with autopayplus app logo" title="phone with autopayplus app logo" height="auto"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="column column-2" width="66.66666666666667%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-top:10px;text-align:center;width:100%">
+<h1 style="margin:0;color:#0098e6;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:18px;font-weight:700;letter-spacing:normal;line-height:1.2;text-align:center;margin-top:0;margin-bottom:0;mso-line-height-alt:22px">
+<span class="tinyMce-placeholder" style="word-break: break-word;">Download our App to Easily Access all that AutoPayPlus has to Offer!</span></h1>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="list_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word;color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:1.5;text-align:left;mso-line-height-alt:23px">
+<tbody>
+<tr>
+<td class="pad">
+<div style="margin-left:-20px">
+<ul start="1" style="margin-top:0;margin-bottom:0;list-style-type:revert">
+<li style="Margin:0 0 2px 0">Access to payment schedules and payment history</li><li style="Margin:0 0 2px 0">TransUnion® credit monitoring</li><li style="Margin:0 0 2px 0">Kelly Blue Book® value tracking for your car</li><li style="Margin:0 0 2px 0">Personalized auto insurance quotes</li></ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-5" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="33.333333333333336%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;border-bottom:6px solid #79b544;border-left:6px solid #79b544;vertical-align:top">
+<div class="spacer_block block-1" style="height:1px;line-height:1px;font-size:1px">
+ </div>
+</td>
+<td class="column column-2" width="66.66666666666667%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;border-bottom:6px solid #79b544;border-right:6px solid #79b544;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:5px;padding-left:10px;width:100%">
+<div class="alignment" align="center">
+<div style="max-width:205px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5qua72xJdvCry2d7bThMcriQzs8z-2FrHMkrXeUQyhaYkANasHexr0Ch-2FfjwCeVI-2FYqMrUY3RN0oVD0rZCfJ9yGcWsIZ1ukiq3vrC0kkU9F-2F-2Fg7iVCzhGsdPR8J8dZK3CVAEiTLWcEMbvuosOiiV3Tza-2BeBoJzE8bS5nN2ot8MGitY4wtWX7JZ7A5CZCViDJhw12nfv0jrbNBVykT4l1nng2LQNSfrUyJ86Nl7ArZHlP53g-3D-3DboDs_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVKHCmP0WNz3snd6lE8zGo1jAdw9NmFO2GwbMqGTfZRX1m2jV55cvtdQd5ZBpdgnyX-2BTGIWzCsAyv1CslU4nV9-2Fo0ILsrxbgzRMvON5p363m5WdDoKvmyMgkb0IcT4c3EZZAYUZUtMamA6XhCnmfoTqg-3D-3D" target="_blank"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/6u6/cvs/16t/download%20the%20app%20icon.png" style="display:block;height:auto;border:0;width:100%;border-radius:9px" width="205" alt="" title="" height="auto"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-6" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff;border-radius:0;color:#000;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="100%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top;border-radius:0">
+<div class="spacer_block block-1" style="height:1px;line-height:1px;font-size:1px">
+ </div>
+<table class="heading_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:5px;text-align:center;width:100%">
+<h1 style="margin:0;color:#0098e6;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:28px;font-weight:700;letter-spacing:normal;line-height:1.2;text-align:center;margin-top:0;margin-bottom:0;mso-line-height-alt:34px">
+<strong><span class="tinyMce-placeholder" style="word-break: break-word;">Contact Us</span></strong></h1>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="paragraph_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-left:10px;padding-right:10px">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:left;mso-line-height-alt:18px">
+<p style="margin:0">If you have any questions or need assistance, please reach out to our dedicated Member Support Team.
+<strong>We are available Monday through Friday, from 9 AM to 6 PM EST.</strong></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="divider_block block-4" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-left:10px;padding-right:10px;padding-top:10px">
+<div class="alignment" align="center">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="divider_inner" style="font-size:1px;line-height:1px;border-top:1px solid #bbb">
+<span style="word-break: break-word;"> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-7" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="50%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:20px;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="width:100%">
+<div class="alignment" align="center">
+<div style="max-width:80px"><a href="tel:8008945000" target="_blank"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/6wm/hqp/jrb/f42d98eb-f349-494c-86bd-d975857468f0.png" style="display:block;height:auto;border:0;width:100%" width="80" alt="phone icon" title="phone icon" height="auto"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:5px">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:15px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:center;mso-line-height-alt:18px">
+<p style="margin:0">To speak with a representative directly</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="button_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-left:10px;padding-right:10px;text-align:center">
+<div class="alignment" align="center"><a href="tel:8008945000" target="_blank" style="color:#ffffff;text-decoration:none;"><!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"  href="tel:8008945000"  style="height:32px;width:80px;v-text-anchor:middle;" arcsize="13%" fillcolor="#79b544">
+<v:stroke dashstyle="Solid" weight="0px" color="#79b544"/>
+<w:anchorlock/>
+<v:textbox inset="0px,0px,0px,0px">
+<center dir="false" style="color:#ffffff;font-family:Arial, sans-serif;font-size:15px">
+<![endif]--><span class="button" style="background-color: #79b544; mso-shading: transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; border-radius: 4px; border-right: 0px solid transparent; border-top: 0px solid transparent; color: #ffffff; display: inline-block; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 15px; font-weight: 700; mso-border-alt: none; padding-bottom: 5px; padding-top: 5px; padding-left: 20px; padding-right: 20px; text-align: center; width: auto; word-break: keep-all; letter-spacing: normal;"><span style="word-break: break-word; line-height: 22.5px;">CALL</span></span><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+</a></div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="column column-2" width="50%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:5px;padding-left:5px;padding-right:5px;width:100%">
+<div class="alignment" align="center">
+<div style="max-width:73px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0Ccnh-2FKy8j75E5r0erwLegaaM-2B32W5Vu7xcLKnd8fUkxSNU4R-2B8d2uMpG1Y0a6LO4i9QJwaw2jeG8LPVNwDYK-2BWSXjef75-2BEOzEfeHtiCHCNfEgzrWDPmwNyQ1tfW-2F9mkbw7H1jaLLV4IQ-2Bjrv9X2fC4j-2FT0LjRM60uVXTST0GoF-2FPouBFK2onnKx9L5WBEzUrDPYgvzOCn5SOnVQDOF5-2FVwKOd3bkQABEaUl3mpf-2Fz97lxE3pNZnCYc97ZWaWJs6Ho4AkSjL5pGd0R2e54kPKcfaZnLL5MZ38UgI-2BX78uRfgsvRj4nQ58mxfFTPoh-2FPzkX2A-2FPOJ8NgCftOgx9OUQhUYKyAqOUuYomhhll6tnRYKDs-2BfyhnUI9-2BwvYxrxpbM7m4TEBwnkg-2B3Kf4PsGYWsUdSc-3DyJmL_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVaMeR1WcZFlJdFdyK4qdb3uvZdwI3rKhzAudoAoftwnKtFGEykrTkZQfa5-2FNVGF-2BlK1Cgd3Zj33m-2BSYlfd88ANr4-2F-2Fz1m1zbgSpqPkBH4Ij7kSJdLze2TKKTs94jCFfIV4UNf0bpmeNOGEUX0Er-2BxoQ-3D-3D" target="_blank"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/e8e/ua2/etk/ce72b475-ca4c-4636-bf88-ed88106100df.png" style="display:block;height:auto;border:0;width:100%" width="73" alt="schedule icon" title="schedule icon" height="auto"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="paragraph_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:5px">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:center;mso-line-height-alt:17px">
+<p style="margin:0">To book a welcome call using Calendly</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="button_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-left:10px;padding-right:10px;text-align:center">
+<div class="alignment" align="center"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5qlmTbSIk-2Bz1lcHfcEFd7N3BHMuHBv5BwFaakbiEs6lYPW4DrA729WYcyl7ToLVYisARgO3IKGWvAY7TVWseMBNLWeZwRFPfo-2FqnLEY3zMs2A2RVL6ZtoMRVEbvSYetfVKJt7zZzvZSr5-2BQgktEreI40kmLEsxWrCmynkHSaNUS66TKJJ10fzp-2Fa8Tds7hwzlB68Z1ypJsEliLKd6s7BR1Vkezvu-2Bv4QIg-2FBwjdivWSLg-3D-3D2TW-_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVgogmzkKLBYNNKlQzd2OSZUpes-2FACVC3OrUFa1-2FYeUoUyDpQHZMcXFLVG9E5yuXER2FGCNFUwJJ8PxscaX6NE3mDZqGXa8BSK6U6Uoy2-2BdmhV5N4mS1mh33JbcGBMjvNShWKxEnJ1ESwLtbxLSZjXfA-3D-3D" target="_blank" style="color:#ffffff;text-decoration:none;"><!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"  href="https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fautopayplus.com%2Fautopayplus-calendly%2F&amp;data=05%7C02%7Compi%40autopayplus.com%7C8d71bf4244004bdbbc2f08de8068acc2%7C44b916d2cd4d4472b52cbeba78281998%7C1%7C0%7C639089384244731168%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=UfXKZS75HRvPzlcysHO27vlUDwDflJd1KRHgtT1dTdw%3D&amp;reserved=0" originalSrc="https://autopayplus.com/autopayplus-calendly/"  style="height:32px;width:85px;v-text-anchor:middle;" arcsize="13%" fillcolor="#79b544">
+<v:stroke dashstyle="Solid" weight="0px" color="#79b544"/>
+<w:anchorlock/>
+<v:textbox inset="0px,0px,0px,0px">
+<center dir="false" style="color:#ffffff;font-family:Arial, sans-serif;font-size:15px">
+<![endif]--><span class="button" style="background-color: #79b544; mso-shading: transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; border-radius: 4px; border-right: 0px solid transparent; border-top: 0px solid transparent; color: #ffffff; display: inline-block; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 15px; font-weight: 700; mso-border-alt: none; padding-bottom: 5px; padding-top: 5px; padding-left: 20px; padding-right: 20px; text-align: center; width: auto; word-break: keep-all; letter-spacing: normal;"><span style="word-break: break-word; line-height: 22.5px;">BOOK</span></span><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+</a></div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-8" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#0098e6;border-radius:0;color:#000;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="33.333333333333336%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top">
+<div class="spacer_block block-1" style="height:1px;line-height:1px;font-size:1px">
+ </div>
+</td>
+<td class="column column-2" width="33.333333333333336%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="width:100%">
+<div class="alignment" align="center">
+<div style="max-width:200px"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/3pi/v4j/0tf/ba92f272-4e8f-4121-a0f8-531713136c4e.png" style="display:block;height:auto;border:0;width:100%" width="200" alt="" title="" height="auto"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td class="column column-3" width="33.333333333333336%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<div class="spacer_block block-1" style="height:1px;line-height:1px;font-size:1px">
+ </div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-9" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#0098e6;border-radius:0;color:#000;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="100%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top">
+<table class="divider_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-left:15px;padding-right:15px">
+<div class="alignment" align="center">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="divider_inner" style="font-size:1px;line-height:1px;border-top:1px solid #fff">
+<span style="word-break: break-word;"> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="social_block block-2" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-top:5px;text-align:center;padding-right:0;padding-left:0">
+<div class="alignment" align="center">
+<table class="social-table" width="208px" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;display:inline-block">
+<tbody>
+<tr>
+<td style="padding:0 10px 0 10px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcngPjomk0Sw8pYGO86a3JNLwjk6uuLXj3dgIsKRu7GvrO7GABkfwDC8hsKzbqXjvDhHbkj3Z3rVCIe13XWeFnDDtxP07y8VkcLQuJoF059WURWBCTtFNvfY-2BqyNMG1FqcAhHA4OJXpwN0wmMWZC5Ez-2FlZLewQ9ma6I92mA1aVetyIBJ7O0n81YGLOziJyRM1hV02lkolb13UZh-2FuUbbxJvkP-2F4UQxQoIAuKX69e96R-2Fvq1iY7PPJLWZlK3NWhv9s3TEmtu-2BIKz4BltjYEJJGVnJI-3DckmF_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZV8S9MfFsYvC3i9aBsOgxSOoKIzyPWNzL55Ms5pv8uLZA4gM8yyCbwDzJVQUaduwbeD2W-2BlXa3UeeX2NZqjgLfX1RxddpjZg3RowURLAwNELXiUyeDavDynjRTUQomJnbGmfJuvdVSWxYKl0t-2BJECSKw-3D-3D" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-dark-gray/facebook@2x.png" width="32" height="auto" alt="Facebook" title="Facebook" style="display:block;height:auto;border:0"></a></td>
+<td style="padding:0 10px 0 10px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0Ccntokqu1IYRfmZ9zqIroWwQL-2B5nhMu-2BmlOEgllmIxgTcGWfF2Ds3UtPagAbfZwJWzqS-2BczlRa8T-2FfXZdJFNEkBmMw5T4M8tKz0YCvsyEQbpKLkUNfvp-2BAtCF5F3djFt2CSaLXbzROsLqPiGrInvORIS-2FciK-2FMDRiGAcXPMSYWEZkV5tS43q3fjwUBthBz2LnqRWcDwY2RWcQAKmJ1Md0kCIIMphBd-2Fh4lnYQApFPkqUCzywdgwXWyzmbCuPzNCQi7bw-3D-3D04Fz_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVscKTWkcBSLod-2FQyh-2FFNyZUHKDqRvUCCl97egfdUr730YlVg-2BzfQ2m9wBMZjaC4QgXAobOaSFOSeQN7C3-2Btgydj6royKvJt-2Bng-2BZ81UTSDWB4SFFyoT7YSFhxA3YNzHBcfouL31pH3uWNqb-2FakYCULg-3D-3D" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-dark-gray/instagram@2x.png" width="32" height="auto" alt="Instagram" title="Instagram" style="display:block;height:auto;border:0"></a></td>
+<td style="padding:0 10px 0 10px"><a href="https://nam02.safelinks.protection.outlook.com/?url=http%3A%2F%2Flinkedin.com%2Fcompany%2Fauto-pay-plus%3Fbulk_email_rid%3D949&amp;data=05%7C02%7Compi%40autopayplus.com%7C8d71bf4244004bdbbc2f08de8068acc2%7C44b916d2cd4d4472b52cbeba78281998%7C1%7C0%7C639089384244749820%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=EqqT%2BVznTc783bNm6D39l%2FeRtX30xABp1lu8J0kFFvA%3D&amp;reserved=0" originalsrc="http://linkedin.com/company/auto-pay-plus?bulk_email_rid=949" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-dark-gray/linkedin@2x.png" width="32" height="auto" alt="LinkedIn" title="LinkedIn" style="display:block;height:auto;border:0"></a></td>
+<td style="padding:0 10px 0 10px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnpFdjFcNgInXxo5Hf29auVos81UlR05UKRIxu0NYtg77GuZD-2Fy0TV9PjzdQA6hd7z-2BnQ5jq1DXbT2MX6lmGLFItmE3iPvFdigBcaQfaRTOhJ0w87w-2F57J3Fhop20qwvG3rdzI4SliFwU2-2FBcN1x-2FKR7o1ZHIeBFyGd73tNcgOul1J5otcFmYG8WDd2SeHTWY3J5KXudL9SnS1AsZ-2FtbaYGCp-2FPmm7h0blBfHVEBPYSicWq2LRm5yfrlrDsD-2F3iZqWzHy7tIHCsbvlhIKRoxdheg-3DPZMu_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVIJeWZhNuAlt8X486BtaZTYdkL13qzVgBToth-2BTwRxqpCt-2F7hECHR6w8LcQ1RDdIvvwx-2BAXX4I-2FO3eufSNDEFRuwjRGtDdX7welHJh6aD5jlD-2Fsth4PLMA75UuWMxxdKx9DhEplgBga8Q7LgJz449oQ-3D-3D" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-dark-gray/youtube@2x.png" width="32" height="auto" alt="YouTube" title="YouTube" style="display:block;height:auto;border:0"></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="paragraph_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:10px;padding-top:10px">
+<div style="color:#fff;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:center;mso-line-height-alt:17px">
+<p style="margin:0">800 N. Magnolia Ave. Orlando, FL 32803<br>
+<span style="word-break: break-word; color: #ffffff;"><a href="mailto:membersupport@autopayplus.com?bulk_email_rid=949" target="_self" title="membersupport@autopayplus.com" style="text-decoration: underline; color: #ffffff;">membersupport@autopayplus.com</a></span><br>
+Text: <a href="tel:(234)288-6729" target="_blank" title="tel:(234)288-6729" style="text-decoration: underline; color: #ffffff;" rel="noopener">
+</a><a href="sms: (234)288-6729 " target="_blank" title="sms: (234)288-6729 " style="text-decoration: underline; color: #ffffff;" rel="noopener"></a><a href="sms:(234)288-6729" target="_blank" title="tel:(234)288-6729" rel="noopener" style="text-decoration: underline; color: #ffffff;">(234)288-6729</a>
+ | Call: <a href="tel:1(800) 894-5000" target="_blank" title="tel:1(800) 894-5000" rel="noopener" style="text-decoration: underline; color: #ffffff;">
+1(800) 894-5000</a> <br>
+<span style="word-break: break-word; color: #ffffff;"><u></u><span style="word-break: break-word; color: #ffffff;"><u></u><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5pvz-2BJCH-2BzLoKaA5TIwG3tyEUFz8j-2B4yDZ07eiAMw29CBcasgQFB82fJsnbzlg6gqnjOb0C8gM0VuA96s4Sh1-2Bb2L4mEPQucI5jv4Q428vVFHKJBd2-2BFQTt8mliqka-2BCKnfGFBZlKWHFcZ0-2BaiRTCIIHciEPJTj9UpiLXM63QcMhvLe3VhH4gVzqtmb7SjwLmr6MHS2ccoFQeu8sZ5xnqTUqin5fZvkl284x-2B4eOn3iww-3D-3DqdZL_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVADPzsYImSwTn9sn18VTtDWw-2BXexI-2FkWI9R4rTtEkIZbhWVbWIykW9-2BlixRZA-2F3HTw-2BDoSDAc5isxBKZ8Lbi4V7hri61YyD4dTnGLqoiFu-2FeLfmRdIj-2Bz3GY2AKSRiz-2BMiQBnbU9FZ5vSaJ2eZlZnVg-3D-3D" target="_blank" style="text-decoration: underline; color: #ffffff;" rel="noopener"><u>Privacy</u>&nbsp;Policy</a>
+ |<a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5qgWnuuX7o3baM1rZFFcpe8DPfj0DMhZ9ggP2XnlZhlMGgoXdym3k0TngXhYTG3BfSYElwFlS-2Bq8wBaPib1wjl-2B0FBTlglPa4NXrJtOClty3xlsV039M7pMVGSL6ob3AEkKjPI7c2x4Sga-2FKBVqKuau81ntx8YJK3urHOlfLi2-2BZ4yDZ0YQMe42Mx57aeNmE41hJLB-2Bws9JTDL1DlURjri6L1-2Bqd6Of-2BLz2zdDmZdk6uA-3D-3DgzOg_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVZd3J7aTT-2F7AHSrhNcySIYoiqO33gynhUU63q2zVNZuk4DGNGM21FyExhOuFhX856wPmDcFK-2F8pYjPJjcZn6npMYT6fxlQ6zEe7WMmH-2FIeTLh7y-2BE9ZG7A9ZmeZgoE4p1nYXCZu1JnQMbaAm-2FCG18xw-3D-3D" target="_blank" style="text-decoration: underline; color: #ffffff;" rel="noopener">Terms
+ &amp; Conditions</a></span></span></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="image_block block-4" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td class="pad" style="padding-bottom:10px;width:100%">
+<div class="alignment" align="center">
+<div style="max-width:205px"><a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnhbmuL68Xn-2B9GJFFZz-2FEh5qua72xJdvCry2d7bThMcriQzs8z-2FrHMkrXeUQyhaYkAIpC9TGpGpB5xlGl2TCzQ4RDVwMEGHddCsuW2fTxC6fvOYB8l26JfBOozynRi-2BnxRPyW6PgFpqeUWqTlk1QTUEmXYwzAihxIbMtzU9PoX5aEHssSYiXgLg-2BNT55kQiglW9qH-2B-2B4E0V5x4tF1uoE3Ma2huhlIbQIxjm3H9k0-2FaOwYUmFG0bEXc-2FRYeAmrpJcahA-3D-3DNwoH_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZVLQv14Cqq4glQY4S16Ve8Rp-2FhIjhF0GFICekvMiS31if07xnqlJ6Aunl3Re1H71xuCWQ7N43aaRwIg6wbUPbhxkzdqmAAHQCC7-2Fa99iDbk9YKDKaHOqkNKafLCOBJRuBb-2BLD04fq5ZvomVN7t9x1LoQ-3D-3D" target="_blank"><img src="https://email-template-designer-storage.s3.amazonaws.com/Images/67yn/32174fd2/6u6/cvs/16t/download%20the%20app%20icon.png" style="display:block;height:auto;border:0;width:100%;border-radius:9px" width="205" alt="" title="" height="auto"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row row-10" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+<tbody>
+<tr>
+<td>
+<table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;color:#000;border-radius:0;width:600px;margin:0 auto" width="600">
+<tbody>
+<tr>
+<td class="column column-1" width="100%" style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;padding-bottom:5px;padding-top:5px;vertical-align:top">
+<table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+<tbody>
+<tr>
+<td class="pad">
+<div style="color:#333;direction:ltr;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:10px;font-weight:400;letter-spacing:0;line-height:1.2;text-align:center;mso-line-height-alt:12px">
+<p style="margin:0">Click here to <a href="https://u21895332.ct.sendgrid.net/ls/click?upn=u001.hEIttv-2F44a6SLEDEh0CcnoPbqsZPVJgzYjjpn5948Uxy46Hd-2FH4sdvgt-2FatqHJuP3CgBwufOnNLXKuEMilLPzvIunItn1FZvlVtMnRzs6ZWzjPfVJeHTq7GK6PE97nywfWdJ4M5oZBuVaRI8lywJPM9cEORxeOgiCkYNQD7Sxe-2B9u2nK9-2FWHvcfwu-2FFNkxicvhTr-2FcXx31lelg-2Fr2q9sJwTAiT2tQDQO-2FOcDwbFRqF78CpCqxjJf8g10G7DKM3D6F8Qqw4oBrSZ-2BFxjgZpW1-2FhCQLDZ8BeVpa90dNr-2Bqmmva4nc0sL3Dzh-2BSSaTxGGu-2BMlD-2BdVtmt66dsifNixODJDhusSdwYsvYa-2BqSnUXdDHSoCW8zJYhkyLMZIaSAJsmNeFlJBq6ownxp-2FNSxGP6nwJ5EtQFcSnIvAc3rBefIPbGJbkYKWD13jTSWvNxEagbThdQNWU0QxH10YC4xSDx13ZA2H-2FsibGBdSBg8U8vag-2BSDvTnNJ6wx-2F4Wm5Ywq3q0YXJsaPekBJUOZTmXRpZ5g-2FlUnHbIE1RpxAD-2FbfCSKo2ONnpQRSEsCvqAecfiComnXF24xZKjQh8E-2BMSEKOC4lxERy45P9MTD0C-2F0WTRt2XVu-2Bp5ML-2BuZWpMX5WSvKISuGxaJamLSHBHpSPmrwgMXXC-2BhogZ8GjNzJiNehM67cTcw-3Dboa-_y4SOjRNULfq8kKQjiceur8JaoDIBNU3IsD-2BB-2FhnqMbpefci04ZPwxY0FDwb67gIuflv-2BqaaGr4u3opfYlBp46KluzYzTfN8lx35wdBSdJ1NBEBKcnwv5rPex7qc7KzfVWht-2BhGtSNlDt66tHzvFK5ss-2B5gHyy2yO9Sbd04Dpao8ItYpYss39zHXo7AgPk3xxygpu3tgXU7P-2FADWyiWUTgfFBm4hYf5O4vni6JMAEv5l7Towo88z3eeAcKcHKOvZV3YQif-2BQhX9dGhFKf84uYvzSn2S6ES-2F-2BElwwegolrZffUv7oK-2Blhj-2F0qjS3zn4S8J8wqBjQhHhDTAMjI51SO-2FJgsjjvTC3yQo-2FW4YPHEozHYmiw2VouBSXy-2BWLMQf3tpurOCgYA7SbxpPXyr4qFngFw-3D-3D" target="_blank" rel="noopener" style="color: #0068A5;">
+Unsubscribe</a>&nbsp;</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- End --><img src="https://u21895332.ct.sendgrid.net/wf/open?upn=u001.XtqqMldbfuxrPEr-2FubMh06b3CKM-2FeBVQGndBPffKE173I2Nqxnzf2UqVbvtcLljeTYXDidxH1lo0f0ej-2FqvyzR9uRT07HGQLKRgHXBV8G-2FuZwIvqtBOtEC0xpDcXiUrwPy49gXx3Kuo2vdq3asjiGlP7QpYL6mg9FtnGOw6mPcKjQJ-2FHk8HhbQ1QikgZe4EVOjyWHb-2B1q3TRFlr-2B9ioY5g9MiOfsimKSo9U3M3r75m0BCoVLzV5gxuhP-2BjvFKnYF7iu6sfOQAPX-2FiwHWlbNEpQgWbEcpR9s-2BXmq0jypKzrPrn-2ByHE8n0YbeK-2FrjiUfMdObaNeHo36h-2BnKaj34n7nB-2F9U4VkUuqS70iBH0gfQ0fiM8k0QNI5HNe5mnVUiDIwkYQ085AQKbSGBWFN9esozDg-3D-3D" alt="" width="1" height="1" border="0" style="height:1px !important;width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;"></div>
+</body>
+</html>
 
 </div>
 </body>
