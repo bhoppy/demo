@@ -3,41 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>AutoPayPlus — Debit Method</title>
+  <title>AutoPayPlus — Withdrawal Method</title>
   <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="phone-frame">
-  <!-- Page Header -->
-  <div class="page-header">
-    <a href="/draft2/06-create-login.html" class="back-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Back</a>
-    <img src="/logo.webp" alt="AutoPayPlus">
-  </div>
-  <div class="screen">
+<main class="app">
 
-    <div class="step-bar" style="margin-top:20px;">
-      <span class="step-label">Step 6 of 10</span>
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 5 of 7</span><span class="label">Withdrawal</span></div>
       <div class="step-track"><div class="step-fill" style="width:60%"></div></div>
     </div>
 
-    <div class="icon-circle primary">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-    </div>
-    <h1>Add your debit method</h1>
-    <p class="subtitle">This is the account debits will come from, based on your pay schedule.</p>
+    <h1>Add your withdrawal method</h1>
+    <p class="subtitle">This is the account withdrawals will come from, based on your pay schedule.</p>
 
-    <!-- Here's what to expect callout — matches Figma 07-payment-method -->
-    <div style="background:var(--accent-light);border:1.5px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;gap:12px;align-items:flex-start;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;">Here's what to expect</div>
-        <div style="font-size:12px;color:var(--subtext);line-height:1.55;">Your first debit may occur before your next loan due date and may vary in amount. After that, your biweekly debits will be consistent and predictable every time.</div>
+    <!-- Clarity-before-action: explain timing up front -->
+    <div class="alert alert-info">
+      <i class="fa-solid fa-circle-info alert-icon" style="color:#0576CE;font-size:18px;"></i>
+      <div class="alert-body">
+        <div class="alert-title">Here's what to expect</div>
+        Your first withdrawal may start before your next due date and may vary in amount. After that, withdrawals become clear and consistent.
       </div>
     </div>
 
     <div class="input-group">
       <label>Routing Number</label>
-      <input type="text" placeholder="9 digits" maxlength="9" inputmode="numeric" id="routing" oninput="this.value=this.value.replace(/\D/g,'');checkPayForm()">
+      <input type="text" placeholder="9 digits" maxlength="9" inputmode="numeric" id="routing" oninput="this.value=this.value.replace(/\D/g,'');">
     </div>
 
     <div class="input-group">
@@ -48,39 +45,34 @@
     <div class="input-group">
       <label>Confirm Account Number</label>
       <input type="text" placeholder="Re-enter account number" inputmode="numeric" id="acct-confirm" oninput="this.value=this.value.replace(/\D/g,'');checkPayForm()">
-      <div id="acct-error" style="font-size:12px;color:var(--error);margin-top:4px;display:none;">Account numbers do not match</div>
+      <div id="acct-error" style="font-size:12px;color:var(--alert-error-border);margin-top:4px;display:none;">Account numbers do not match</div>
     </div>
 
-    <label style="font-size:14px;font-weight:500;color:var(--subtext);display:block;margin-bottom:8px;">Account Type</label>
+    <label style="font-size:13px;font-weight:600;color:var(--text-soft);display:block;margin-bottom:8px;">Account Type</label>
     <div class="type-selector">
       <button class="type-option active" onclick="selectType(this)">Checking</button>
       <button class="type-option" onclick="selectType(this)">Savings</button>
     </div>
 
-    <!-- Trust Elements -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:4px;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span style="font-size:12px;font-weight:500;color:var(--success);">Encrypted and secure</span>
-    </div>
-    <p class="text-xs text-muted text-center mb-6">Used only for your AutoPayPlus payment plan</p>
-
-    <a href="/draft2/08-transunion-method.html" class="btn btn-primary mb-3" id="pay-btn">Add Debit Method</a>
-    <a href="/draft2/08-transunion-method.html" class="btn btn-secondary mb-3">Do This Later</a>
-
-    <p class="text-xs text-warning text-center mb-2">You'll need to complete this before your first payment is scheduled.</p>
-
-    <div class="security-footer">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span>Secure and encrypted</span>
+    <a href="08-transunion-method.html" class="btn btn-primary" onclick="markWithdrawalAdded()">Add Withdrawal Method</a>
+    <a href="08-transunion-method.html" class="btn btn-secondary" onclick="markWithdrawalSkipped()">Skip for now</a>
+    <a href="06-create-login.html" class="btn btn-ghost">Back</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
     </div>
   </div>
 </div>
-
 <script>
 function selectType(btn) {
   document.querySelectorAll('.type-option').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
+function markWithdrawalAdded()  { try { sessionStorage.removeItem('withdrawalSkipped'); } catch(e){} }
+function markWithdrawalSkipped(){ try { sessionStorage.setItem('withdrawalSkipped', '1'); } catch(e){} }
 function checkPayForm() {
   const acct = document.getElementById('acct').value;
   const confirm = document.getElementById('acct-confirm').value;
