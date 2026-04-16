@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Verify Your Account</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 2 of 7</span><span class="label">Verification</span></div>
+      <div class="step-track"><div class="step-fill" style="width:20%"></div></div>
+    </div>
+
+    <h1>How should we send your code?</h1>
+    <p class="subtitle">We'll send a one-time code to confirm it's really you. Pick where you'd like to receive it.</p>
+
+    <div class="radio-card selected" onclick="selectMFA(this, 'sms')">
+      <div class="rc-icon"><i class="fa-solid fa-message"></i></div>
+      <div class="rc-text">
+        <div class="rc-title">Text message</div>
+        <div class="rc-sub">Send to (•••) •••-1234</div>
+      </div>
+      <div class="rc-radio"></div>
+    </div>
+
+    <div class="radio-card" onclick="selectMFA(this, 'email')">
+      <div class="rc-icon"><i class="fa-solid fa-envelope"></i></div>
+      <div class="rc-text">
+        <div class="rc-title">Email</div>
+        <div class="rc-sub">Send to sa*****on@gmail.com</div>
+      </div>
+      <div class="rc-radio"></div>
+    </div>
+
+    <p class="text-xs text-muted text-center mt-2 mb-4">Standard message and data rates may apply.</p>
+
+    <div class="spacer"></div>
+
+    <a href="04-enter-mfa.html" class="btn btn-primary">Send Code</a>
+    <a href="02-identity.html" class="btn btn-ghost">Back</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function selectMFA(el) {
+  document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+</script>
+</body>
+</html>

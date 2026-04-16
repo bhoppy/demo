@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — TransUnion Code</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 6 of 7</span><span class="label">TransUnion</span></div>
+      <div class="step-track"><div class="step-fill" style="width:80%"></div></div>
+    </div>
+
+    <h1>Enter your TransUnion code</h1>
+    <p class="subtitle">TransUnion just sent a 6-digit code to <strong>••••1234</strong>. Enter it below to turn on monitoring.</p>
+
+    <div class="otp-group">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,0)" onfocus="this.select()">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,1)" onfocus="this.select()">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,2)" onfocus="this.select()">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,3)" onfocus="this.select()">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,4)" onfocus="this.select()">
+      <input type="text" maxlength="1" inputmode="numeric" oninput="otpAdvance(this,5)" onfocus="this.select()">
+    </div>
+
+    <p class="text-sm text-primary text-center mb-6" style="cursor:pointer;font-weight:600;" id="resend-link" onclick="resendCode()">Resend code</p>
+
+    <div class="spacer"></div>
+
+    <a href="10-credit-score.html" class="btn btn-primary">Verify</a>
+    <a href="08-transunion-method.html" class="btn btn-ghost">Use a different method</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const otpInputs = document.querySelectorAll('.otp-group input');
+function otpAdvance(el, idx) {
+  if(el.value && idx < 5) otpInputs[idx+1].focus();
+  el.classList.toggle('filled', !!el.value);
+}
+otpInputs.forEach((inp, i) => {
+  inp.addEventListener('keydown', e => {
+    if(e.key === 'Backspace' && !inp.value && i > 0) otpInputs[i-1].focus();
+  });
+  inp.addEventListener('paste', e => {
+    e.preventDefault();
+    const data = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+    data.split('').forEach((c,j) => { if(otpInputs[j]) { otpInputs[j].value = c; otpInputs[j].classList.add('filled'); }});
+    if(data.length > 0) otpInputs[Math.min(data.length, 5)].focus();
+  });
+});
+let cooldown = 0;
+function resendCode() {
+  if(cooldown > 0) return;
+  cooldown = 30;
+  otpInputs.forEach(i => { i.value=''; i.classList.remove('filled'); });
+  otpInputs[0].focus();
+  const link = document.getElementById('resend-link');
+  const tick = setInterval(() => {
+    cooldown--;
+    link.textContent = cooldown > 0 ? `You can request a new code in ${cooldown}s` : 'Resend code';
+    link.style.color = cooldown > 0 ? 'var(--text-muted)' : 'var(--primary)';
+    if(cooldown <= 0) clearInterval(tick);
+  }, 1000);
+}
+</script>
+</body>
+</html>

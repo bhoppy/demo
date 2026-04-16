@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Enrollment Text</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+  <style>
+    /* Messages-app chrome (screen-specific, not added to shared.css) */
+    .sms-screen {
+      background: #F4F5F7;
+      border: 1px solid var(--border-default);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      min-height: 640px;
+    }
+    .sms-header {
+      background: rgba(246,246,248,0.95);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid #E1E3E8;
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .sms-header .back {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0576CE;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .sms-header .info {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0576CE;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .sms-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--gradient-header);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .sms-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sms-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .sms-body {
+      flex: 1;
+      padding: 18px 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sms-timestamp {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin: 2px 0 10px;
+    }
+    .sms-timestamp strong { color: var(--text-soft); font-weight: 600; }
+    .sms-bubble {
+      align-self: flex-start;
+      max-width: 86%;
+      background: #E9E9EB;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+      font-size: 14px;
+      line-height: 1.45;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.03);
+    }
+    .sms-bubble a {
+      color: #0576CE;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    /* Link preview card — iMessage-style rich unfurl */
+    .sms-preview {
+      align-self: flex-start;
+      max-width: 86%;
+      margin-top: 4px;
+      background: #FFFFFF;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #E1E3E8;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .sms-preview .prev-header {
+      background: var(--gradient-header);
+      padding: 18px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sms-preview .prev-logo {
+      width: 38px;
+      height: 38px;
+      background: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sms-preview .prev-logo svg { width: 22px; height: 22px; }
+    .sms-preview .prev-header-text {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .sms-preview .prev-header-sub {
+      color: #D6EBFB;
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+    .sms-preview .prev-body {
+      padding: 10px 14px 12px;
+    }
+    .sms-preview .prev-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 2px;
+    }
+    .sms-preview .prev-url {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: lowercase;
+    }
+    .sms-meta {
+      align-self: flex-start;
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-muted);
+      padding-left: 4px;
+    }
+    /* Faux input bar at bottom */
+    .sms-input {
+      border-top: 1px solid #E1E3E8;
+      background: #F6F6F8;
+      padding: 10px 14px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sms-input .plus {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #E1E3E8;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .sms-input .field {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #E1E3E8;
+      border-radius: 18px;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 768px) {
+      .sms-screen { min-height: 720px; }
+    }
+
+    .context-note {
+      background: var(--alert-info-bg);
+      border: 1px solid var(--alert-info-border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+    .context-note strong { color: var(--alert-info-border); }
+  </style>
+</head>
+<body>
+<main class="app">
+
+  <h1>Enrollment Text</h1>
+  <p class="subtitle">What the new member sees on their phone right after the dealership taps <strong>Enroll Customer</strong>.</p>
+
+  <!-- Prototype context (not part of the SMS mockup) -->
+  <div class="context-note">
+    <strong>Prototype context:</strong> This is the SMS the member receives instantly after dealership enrollment. Tapping the link opens the magic-link onboarding flow.
+  </div>
+
+  <!-- ========== SMS MOCKUP ========== -->
+  <div class="sms-screen">
+
+    <!-- Header: sender info -->
+    <div class="sms-header">
+      <span class="back">&lsaquo;</span>
+      <span class="info">&#9432;</span>
+      <div class="sms-avatar">AP+</div>
+      <div class="sms-name">AutoPayPlus</div>
+      <div class="sms-sub">Text Message</div>
+    </div>
+
+    <!-- Message thread -->
+    <div class="sms-body">
+      <div class="sms-timestamp">Text Message &middot; <strong>Today 2:47 PM</strong></div>
+
+      <div class="sms-bubble">
+        Hi Sarah! Congrats on your 2025 Ford Escape and Welcome to AutoPayPlus! Setup your payment plan in about 5 min with this link: <a href="01-magic-link.html">https://app.ly/s/xK9p2</a>
+        <br><br>
+        Reply STOP to opt out. Msg &amp; data rates may apply.
+      </div>
+
+      <!-- Rich link preview (the magic-link unfurl) -->
+      <a class="sms-preview" href="01-magic-link.html">
+        <div class="prev-header">
+          <div class="prev-logo">
+            <i class="fa-solid fa-shield-check" style="font-size:22px;color:#0576CE;"></i>
+          </div>
+          <div>
+            <div class="prev-header-text">Set up your payment plan</div>
+            <div class="prev-header-sub">2025 Ford Escape · ~5 min</div>
+          </div>
+        </div>
+        <div class="prev-body">
+          <div class="prev-title">AutoPayPlus — Welcome, Sarah</div>
+          <div class="prev-url">app.ly</div>
+        </div>
+      </a>
+
+      <div class="sms-meta">Delivered</div>
+    </div>
+
+    <!-- Faux input bar -->
+    <div class="sms-input">
+      <div class="plus">+</div>
+      <div class="field">iMessage</div>
+    </div>
+
+  </div>
+  <!-- ========== END SMS MOCKUP ========== -->
+
+  <div class="spacer"></div>
+
+  <a href="01-magic-link.html" class="btn btn-primary">Tap link → Open onboarding</a>
+</main>
+</body>
+</html>

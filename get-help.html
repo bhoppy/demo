@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Get Help</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+  <style>
+    .help-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--surface-raised);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-card);
+      text-decoration: none;
+      color: var(--text);
+      margin-bottom: 12px;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .help-option:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .help-option__icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--primary-surface);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .help-option__body { flex: 1; min-width: 0; }
+    .help-option__title {
+      font-size: 15px; font-weight: 700; color: var(--text);
+      margin-bottom: 2px;
+    }
+    .help-option__meta {
+      font-size: 13px; color: var(--text-soft); line-height: 1.4;
+    }
+    .help-option__chev { color: var(--text-muted); flex-shrink: 0; }
+    .help-hours {
+      font-size: 11px; color: var(--text-muted); margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <h1 style="text-align:center;">We're here to help</h1>
+    <p class="subtitle text-center">Pick the way that's easiest for you — a real person will be on the other end.</p>
+
+    <!-- Phone -->
+    <a href="tel:+18005550100" class="help-option">
+      <div class="help-option__icon">
+        <i class="fa-solid fa-phone" style="font-size:18px;color:#0576CE;"></i>
+      </div>
+      <div class="help-option__body">
+        <div class="help-option__title">Call us</div>
+        <div class="help-option__meta">(800) 555-0100</div>
+        <div class="help-hours">Mon–Fri · 8am–8pm ET</div>
+      </div>
+      <i class="fa-solid fa-chevron-right help-option__chev" style="font-size:16px;color:currentColor;"></i>
+    </a>
+
+    <!-- SMS -->
+    <a href="sms:+18005550100" class="help-option">
+      <div class="help-option__icon">
+        <i class="fa-solid fa-message" style="font-size:18px;color:#0576CE;"></i>
+      </div>
+      <div class="help-option__body">
+        <div class="help-option__title">Text us</div>
+        <div class="help-option__meta">(800) 555-0100</div>
+        <div class="help-hours">Typical reply in under 10 minutes</div>
+      </div>
+      <i class="fa-solid fa-chevron-right help-option__chev" style="font-size:16px;color:currentColor;"></i>
+    </a>
+
+    <!-- Email -->
+    <a href="mailto:support@autopayplus.com" class="help-option">
+      <div class="help-option__icon">
+        <i class="fa-solid fa-envelope" style="font-size:18px;color:#0576CE;"></i>
+      </div>
+      <div class="help-option__body">
+        <div class="help-option__title">Email us</div>
+        <div class="help-option__meta">support@autopayplus.com</div>
+        <div class="help-hours">Typical reply within 1 business day</div>
+      </div>
+      <i class="fa-solid fa-chevron-right help-option__chev" style="font-size:16px;color:currentColor;"></i>
+    </a>
+
+    <!-- Calendly -->
+    <a href="https://calendly.com/autopayplus/support" target="_blank" rel="noopener" class="help-option">
+      <div class="help-option__icon">
+        <i class="fa-solid fa-calendar-days" style="font-size:18px;color:#0576CE;"></i>
+      </div>
+      <div class="help-option__body">
+        <div class="help-option__title">Book a time with us</div>
+        <div class="help-option__meta">Pick a 15-minute slot that works for you</div>
+        <div class="help-hours">Walk through setup with a specialist</div>
+      </div>
+      <i class="fa-solid fa-chevron-right help-option__chev" style="font-size:16px;color:currentColor;"></i>
+    </a>
+
+    <div class="alert alert-info" style="margin-top:6px;">
+      <i class="fa-solid fa-circle-info alert-icon" style="color:#0576CE;font-size:16px;"></i>
+      <div class="alert-body">
+        <div class="alert-title">Your progress is saved</div>
+        You can step away and come back — we'll pick up right where you left off.
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <a href="javascript:history.back()" class="btn btn-ghost">Back to where I was</a>
+
+    <div class="security-footer">
+      <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+      <span>Secure and encrypted</span>
+    </div>
+</main>
+</body>
+</html>

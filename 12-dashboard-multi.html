@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Dashboard (Multi-Loan)</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app has-nav">
+
+    <div style="padding-top:4px;padding-bottom:14px;">
+      <h1 style="margin-bottom:4px;">Good morning, Sarah</h1>
+      <p class="text-sm text-soft">Here's what's coming next across your plan.</p>
+    </div>
+
+    <div class="toggle-tabs">
+      <a href="12-dashboard.html" class="toggle-tab" style="text-decoration:none;">Single loan</a>
+      <button class="toggle-tab active">Multi-loan view</button>
+    </div>
+
+    <!-- Hero card — gradient header, multi-loan -->
+    <div class="card">
+      <div class="card-header">
+        <span>Your Plan</span>
+        <span class="header-sub">3 loans on track</span>
+      </div>
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="date-tile">
+            <span class="dt-month">Apr</span>
+            <span class="dt-day">18</span>
+          </div>
+          <div style="flex:1;">
+            <div class="text-xs text-soft fw-600" style="text-transform:uppercase;letter-spacing:0.4px;">Next withdrawal</div>
+            <div class="money-xl">$687.25</div>
+            <div class="text-xs text-muted">Based on your pay schedule</div>
+          </div>
+        </div>
+
+        <div class="loan-row">
+          <div class="loan-icon">
+            <i class="fa-solid fa-car" style="font-size:16px;color:currentColor;"></i>
+          </div>
+          <div class="loan-info">
+            <div class="loan-title">2022 Honda Civic</div>
+            <div class="loan-sub">Capital One Auto Finance</div>
+          </div>
+          <div>
+            <div class="loan-amount">$243.50</div>
+            <div class="loan-amount-sub">of $487/mo</div>
+          </div>
+        </div>
+
+        <div class="loan-row">
+          <div class="loan-icon">
+            <i class="fa-solid fa-car" style="font-size:16px;color:currentColor;"></i>
+          </div>
+          <div class="loan-info">
+            <div class="loan-title">2024 Toyota RAV4</div>
+            <div class="loan-sub">Ally Financial</div>
+          </div>
+          <div>
+            <div class="loan-amount">$267.50</div>
+            <div class="loan-amount-sub">of $535/mo</div>
+          </div>
+        </div>
+
+        <div class="loan-row" style="margin-bottom:0;">
+          <div class="loan-icon">
+            <i class="fa-solid fa-house" style="font-size:16px;color:currentColor;"></i>
+          </div>
+          <div class="loan-info">
+            <div class="loan-title">1234 Oak Street</div>
+            <div class="loan-sub">Wells Fargo Mortgage</div>
+          </div>
+          <div>
+            <div class="loan-amount">$176.25</div>
+            <div class="loan-amount-sub">of $352/mo</div>
+          </div>
+        </div>
+
+        <div class="alert alert-info" style="margin-top:14px;margin-bottom:0;">
+          <i class="fa-solid fa-circle-info alert-icon" style="color:#0576CE;font-size:16px;"></i>
+          <div class="alert-body">Each amount is based on your pay schedule. We hold the funds and send the full payment to each lender on their due date.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next steps -->
+    <h2 class="mt-2">Next steps</h2>
+    <p class="text-sm text-soft mb-3">Clear and consistent — here's what's still open.</p>
+
+    <div class="card-plain">
+      <div class="flex items-center gap-3">
+        <div style="width:40px;height:40px;background:var(--green-surface);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="fa-solid fa-chart-simple" style="font-size:18px;color:#1B9E5A;"></i>
+        </div>
+        <div style="flex:1;">
+          <div class="text-sm fw-700">Credit monitoring</div>
+          <div class="text-xs text-soft">On — TransUnion, 12 months included</div>
+        </div>
+        <span class="badge badge-green">Active</span>
+      </div>
+    </div>
+
+    <div class="card-plain">
+      <div class="flex items-center gap-3">
+        <div style="width:40px;height:40px;background:var(--primary-surface);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="fa-solid fa-shield" style="font-size:18px;color:#0576CE;"></i>
+        </div>
+        <div style="flex:1;">
+          <div class="text-sm fw-700">Check for a better insurance rate</div>
+          <div class="text-xs text-soft">Here's what to expect: a quick quote, no commitment</div>
+        </div>
+        <button class="btn btn-sm btn-secondary">View</button>
+      </div>
+    </div>
+
+    <!-- Role clarity -->
+    <div class="card">
+      <div class="card-header">
+        <span>Good to know</span>
+      </div>
+      <div class="card-body-tight">
+        <div class="flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-check" style="font-size:14px;color:#0576CE;"></i>
+          <span class="text-xs text-soft">We don't replace your lenders</span>
+        </div>
+        <div class="flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-check" style="font-size:14px;color:#0576CE;"></i>
+          <span class="text-xs text-soft">You'll always see what's coming next</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-check" style="font-size:14px;color:#0576CE;"></i>
+          <span class="text-xs text-soft">Each paycheck moves you closer — step by step</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active">
+        <i class="fa-solid fa-house" style="font-size:20px;color:currentColor;"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-solid fa-credit-card" style="font-size:20px;color:currentColor;"></i>
+        <span>Accounts</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-solid fa-chart-simple" style="font-size:20px;color:currentColor;"></i>
+        <span>Credit</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-solid fa-message" style="font-size:20px;color:currentColor;"></i>
+        <span>Service</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fa-solid fa-ellipsis" style="font-size:20px;color:currentColor;"></i>
+        <span>More</span>
+      </a>
+    </nav>
+</main>
+</body>
+</html>

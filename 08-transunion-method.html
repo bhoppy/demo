@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Credit Monitoring</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 6 of 7</span><span class="label">Credit Monitoring</span></div>
+      <div class="step-track"><div class="step-fill" style="width:70%"></div></div>
+    </div>
+
+    <h1>Turn on free credit monitoring</h1>
+    <p class="subtitle">Included with your membership. Here's what to expect: we'll verify you with TransUnion, then you'll get 12 months of monitoring.</p>
+
+    <!-- Upsell card — green header pattern per design system -->
+    <div class="card">
+      <div class="card-header" style="background:var(--green);">
+        <span>Included Benefit</span>
+        <span class="header-sub">No cost to you</span>
+      </div>
+      <div class="card-body">
+        <div class="flex items-center gap-3 mb-3">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--green-surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="fa-solid fa-chart-simple" style="font-size:16px;color:#1B9E5A;"></i>
+          </div>
+          <div style="flex:1;">
+            <div class="fw-700 text-sm">12 months of TransUnion monitoring</div>
+            <div class="text-xs text-soft">No impact to your credit score</div>
+          </div>
+        </div>
+        <div class="text-sm text-soft">Pick how you'd like to verify your identity with TransUnion below.</div>
+      </div>
+    </div>
+
+    <h3 class="mt-2">Choose a verification method</h3>
+    <div class="radio-card selected" onclick="selectTU(this, 'sms')">
+      <div class="rc-icon"><i class="fa-solid fa-message"></i></div>
+      <div class="rc-text"><div class="rc-title">Text message</div><div class="rc-sub">We'll send a code to (•••) •••-4567</div></div>
+      <div class="rc-radio"></div>
+    </div>
+    <div class="radio-card" onclick="selectTU(this, 'voice')">
+      <div class="rc-icon"><i class="fa-solid fa-phone"></i></div>
+      <div class="rc-text"><div class="rc-title">Voice call</div><div class="rc-sub">We'll call (•••) •••-4567 and read your code</div></div>
+      <div class="rc-radio"></div>
+    </div>
+    <div class="radio-card" onclick="selectTU(this, 'kba')">
+      <div class="rc-icon"><i class="fa-solid fa-circle-question"></i></div>
+      <div class="rc-text"><div class="rc-title">Security questions</div><div class="rc-sub">Answer a few identity questions</div></div>
+      <div class="rc-radio"></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <a href="09a-transunion-otp.html" class="btn btn-primary" id="tu-continue">Continue</a>
+    <a href="11-setup-summary.html" class="btn btn-ghost">Skip for now</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function selectTU(el, method) {
+  document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('tu-continue').href = method === 'kba' ? '09b-transunion-kba.html' : '09a-transunion-otp.html';
+}
+</script>
+</body>
+</html>
