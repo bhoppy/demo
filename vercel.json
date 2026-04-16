@@ -5,6 +5,7 @@
     { "src": "^/draft2/(.*)$",  "dest": "/draft2/$1"  },
     { "src": "^/partner/(.*)$", "dest": "/partner/$1" },
     { "src": "^/steps/(.*)$",   "dest": "/steps/$1"   },
+    { "src": "^/draft3/(.*)$",  "dest": "/draft3/$1"  },
     { "src": "^/$",             "dest": "/index.html" },
     { "src": "^/index$",        "dest": "/index.html" },
     { "src": "^/(.*)$",         "dest": "/index.html" }
