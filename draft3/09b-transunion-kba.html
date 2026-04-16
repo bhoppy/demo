@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Security Questions</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 6 of 7</span><span class="label">TransUnion</span></div>
+      <div class="step-track"><div class="step-fill" style="width:80%"></div></div>
+    </div>
+
+    <h1>A few questions to verify you</h1>
+    <p class="subtitle">These come from TransUnion and help protect your credit information. One idea at a time.</p>
+
+    <p class="text-xs fw-600 text-primary mb-2" id="q-counter">QUESTION 1 OF 3</p>
+    <p style="font-size:16px;font-weight:600;margin-bottom:14px;" id="q-text">Which of these streets have you lived on?</p>
+
+    <div id="options-container">
+      <div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>Oak Street</span></div>
+      <div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>Maple Avenue</span></div>
+      <div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>Pine Road</span></div>
+      <div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>Elm Boulevard</span></div>
+      <div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>None of the above</span></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <button class="btn btn-primary" id="kba-continue" onclick="nextQuestion()" disabled>Continue</button>
+    <a href="08-transunion-method.html" class="btn btn-ghost">Choose a different method</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const questions = [
+  { q: 'Which of these streets have you lived on?', opts: ['Oak Street','Maple Avenue','Pine Road','Elm Boulevard','None of the above'] },
+  { q: 'Which lender is associated with your credit history?', opts: ['Capital One','Wells Fargo','Chase','Bank of America','None of the above'] },
+  { q: 'Which of these counties have you lived in?', opts: ['Travis County','Harris County','Dallas County','Bexar County','None of the above'] },
+];
+let currentQ = 0;
+function selectKBA(el) {
+  document.querySelectorAll('.kba-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('kba-continue').disabled = false;
+}
+function nextQuestion() {
+  currentQ++;
+  if(currentQ >= questions.length) {
+    window.location.href = '10-credit-score.html';
+    return;
+  }
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `QUESTION ${currentQ+1} OF ${questions.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  const container = document.getElementById('options-container');
+  container.innerHTML = q.opts.map(o =>
+    `<div class="kba-option" onclick="selectKBA(this)"><div class="kba-radio"></div><span>${o}</span></div>`
+  ).join('');
+  document.getElementById('kba-continue').disabled = true;
+  document.getElementById('kba-continue').textContent = currentQ === questions.length - 1 ? 'Submit Answers' : 'Continue';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AutoPayPlus — Create Your Login</title>
+  <link rel="stylesheet" href="shared.css">
+  <script src="https://kit.fontawesome.com/88e6030591.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<main class="app">
+
+    <!-- Logo -->
+    <div style="text-align:center;padding-top:8px;padding-bottom:18px;">
+      <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus" style="height:28px;">
+    </div>
+
+    <div class="step-bar">
+      <div class="step-meta"><span>Step 4 of 7</span><span class="label">Login</span></div>
+      <div class="step-track"><div class="step-fill" style="width:50%"></div></div>
+    </div>
+
+    <h1>Create your login</h1>
+    <p class="subtitle">This is how you'll sign in from now on — so you can always check in on your plan.</p>
+
+    <div class="input-group">
+      <label>Username</label>
+      <input type="text" placeholder="Choose a username" id="username" oninput="checkForm()">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <div class="input-wrapper">
+        <input type="password" placeholder="Create a password" id="password" oninput="checkPassword()">
+        <button class="toggle-pw" onclick="togglePW(this)">👁</button>
+      </div>
+    </div>
+
+    <div class="pw-rules" id="pw-rules">
+      <div class="pw-rule" data-rule="length"><span>○</span> 8+ characters</div>
+      <div class="pw-rule" data-rule="upper"><span>○</span> 1 uppercase letter</div>
+      <div class="pw-rule" data-rule="number"><span>○</span> 1 number</div>
+      <div class="pw-rule" data-rule="special"><span>○</span> 1 special character</div>
+    </div>
+
+    <div class="input-group">
+      <label>Confirm Password</label>
+      <div class="input-wrapper">
+        <input type="password" placeholder="Re-enter your password" id="confirm-pw" oninput="checkForm()">
+        <button class="toggle-pw" onclick="togglePW(this)">👁</button>
+      </div>
+      <div id="match-error" style="font-size:12px;color:var(--alert-error-border);margin-top:4px;display:none;">Passwords do not match</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <a href="07-payment-method.html" class="btn btn-primary is-disabled" id="submit-btn">Create Login</a>
+    <a href="05-confirm-contact.html" class="btn btn-ghost">Back</a>
+    <div class="page-footer">
+      <a href="get-help.html" class="help-link">Having trouble? Get help</a>
+      <div class="security-footer">
+        <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+        <span>Secure and encrypted</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function togglePW(btn) {
+  const inp = btn.parentElement.querySelector('input');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+const rules = {
+  length: pw => pw.length >= 8,
+  upper:  pw => /[A-Z]/.test(pw),
+  number: pw => /\d/.test(pw),
+  special:pw => /[!@#$%^&*(),.?":{}|<>]/.test(pw),
+};
+let allRulesPass = false;
+function checkPassword() {
+  const pw = document.getElementById('password').value;
+  allRulesPass = true;
+  document.querySelectorAll('.pw-rule').forEach(el => {
+    const rule = el.dataset.rule;
+    const pass = rules[rule](pw);
+    if(!pass) allRulesPass = false;
+    el.classList.toggle('pass', pass);
+    el.querySelector('span').textContent = pass ? '✓' : '○';
+  });
+  checkForm();
+}
+function checkForm() {
+  const username = document.getElementById('username').value;
+  const pw = document.getElementById('password').value;
+  const cpw = document.getElementById('confirm-pw').value;
+  const match = pw === cpw && cpw.length > 0;
+  const btn = document.getElementById('submit-btn');
+  const err = document.getElementById('match-error');
+  err.style.display = cpw.length > 0 && !match ? '' : 'none';
+  const valid = username && allRulesPass && match;
+  btn.classList.toggle('is-disabled', !valid);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
+        <title>AutoPayPlus — You're Set</title>
+        <link rel="stylesheet" href="shared.css" />
+        <script
+            src="https://kit.fontawesome.com/88e6030591.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <main class="app">
+            <!-- Logo -->
+            <div
+                style="
+                    text-align: center;
+                    padding-top: 8px;
+                    padding-bottom: 18px;
+                "
+            >
+                <img
+                    src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg"
+                    alt="AutoPayPlus"
+                    style="height: 28px"
+                />
+            </div>
+
+            <div class="step-bar">
+                <div class="step-meta">
+                    <span>Complete</span><span class="label">Summary</span>
+                </div>
+                <div class="step-track">
+                    <div class="step-fill" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px">
+                <div
+                    id="summary-badge"
+                    style="
+                        width: 64px;
+                        height: 64px;
+                        border-radius: 50%;
+                        background: var(--green-surface);
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 14px;
+                    "
+                >
+                    <i class="fa-solid fa-check" style="font-size:32px;color:#1B9E5A;"></i>
+                </div>
+                <h1 id="summary-title">You're set up</h1>
+                <p
+                    class="subtitle"
+                    id="summary-subtitle"
+                    style="margin-bottom: 0"
+                >
+                    Here's everything you completed. You'll always be able to
+                    see and update these later.
+                </p>
+            </div>
+
+            <!-- Skipped-payment warning (hidden unless skipped on step 6) -->
+            <div id="payment-skipped-alert" class="alert alert-warn hidden">
+                <i class="fa-solid fa-triangle-exclamation alert-icon" style="color:#9C6600;font-size:18px;"></i>
+                <div class="alert-body">
+                    <div class="alert-title">Withdrawal method needed</div>
+                    You skipped adding a withdrawal method. We'll need it before
+                    your first withdrawal can be made.
+                    <a href="07-payment-method.html" style="font-weight: 600"
+                        >Add it now</a
+                    >.
+                </div>
+            </div>
+
+            <!-- Checklist card with gradient header -->
+            <div class="card">
+                <div class="card-header">
+                    <span>Setup Summary</span>
+                    <span class="header-sub" id="summary-counts"
+                        >5 complete · 1 optional</span
+                    >
+                </div>
+                <div class="card-body">
+                    <div class="checklist-item">
+                        <div class="checklist-icon">
+                            <i class="fa-solid fa-check" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1"
+                            >Identity verified</span
+                        >
+                        <span class="badge badge-green">Complete</span>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-icon">
+                            <i class="fa-solid fa-check" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1"
+                            >Contact info confirmed</span
+                        >
+                        <span class="badge badge-green">Complete</span>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-icon">
+                            <i class="fa-solid fa-check" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1">Login created</span>
+                        <span class="badge badge-green">Complete</span>
+                    </div>
+                    <div class="checklist-item" id="payment-row">
+                        <div class="checklist-icon" id="payment-icon">
+                            <i class="fa-solid fa-check" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1" id="payment-label"
+                            >Withdrawal method added</span
+                        >
+                        <span class="badge badge-green" id="payment-badge"
+                            >Complete</span
+                        >
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-icon">
+                            <i class="fa-solid fa-check" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1"
+                            >Credit monitoring on</span
+                        >
+                        <span class="badge badge-green">Complete</span>
+                    </div>
+                    <div class="checklist-item">
+                        <div class="checklist-icon pending">
+                            <i class="fa-solid fa-shield" style="font-size:14px;color:currentColor;"></i>
+                        </div>
+                        <span class="text-sm fw-600 flex-1"
+                            >Insurance quote</span
+                        >
+                        <span class="badge badge-muted">Optional</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clarity before action — what's coming next -->
+            <div class="alert alert-info" id="whats-next-alert">
+                <i class="fa-solid fa-calendar-days alert-icon" style="color:#0576CE;font-size:18px;"></i>
+                <div class="alert-body">
+                    <div class="alert-title">What happens next</div>
+                    Your first withdrawal may start before your next due date.
+                    We'll always show you what's coming on your dashboard.
+                </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <a
+                href="07-payment-method.html"
+                class="btn btn-primary hidden"
+                id="add-payment-cta"
+                >Add Payment Method</a
+            >
+            <a
+                href="12-dashboard.html"
+                class="btn btn-primary"
+                id="dashboard-cta"
+                >Go to Dashboard</a
+            >
+            <div class="page-footer">
+                <a href="get-help.html" class="help-link"
+                    >Having trouble? Get help</a
+                >
+                <div class="security-footer">
+                    <i class="fa-solid fa-lock" style="font-size:11px;color:#8A8A8A;"></i>
+                    <span>Secure and encrypted</span>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            (function () {
+                var skipped = false;
+                try {
+                    skipped = sessionStorage.getItem("paymentSkipped") === "1";
+                } catch (e) {}
+                if (!skipped) return;
+
+                // Header / title
+                document.getElementById("summary-title").textContent =
+                    "You're almost set";
+                document.getElementById("summary-subtitle").textContent =
+                    "Most of your setup is done — just one thing still needed before your first withdrawal.";
+
+                // Swap top badge to warning color
+                var badge = document.getElementById("summary-badge");
+                badge.style.background = "var(--alert-warn-bg)";
+                badge.innerHTML =
+                    '<i class="fa-solid fa-triangle-exclamation" style="font-size:32px;color:#9C6600;"></i>';
+
+                // Show top warning alert
+                document
+                    .getElementById("payment-skipped-alert")
+                    .classList.remove("hidden");
+
+                // Update summary counts
+                document.getElementById("summary-counts").textContent =
+                    "4 complete · 1 needed · 1 optional";
+
+                // Mark payment row as warning
+                var icon = document.getElementById("payment-icon");
+                icon.classList.remove();
+                icon.className = "checklist-icon warn";
+                icon.innerHTML =
+                    '<i class="fa-solid fa-triangle-exclamation" style="font-size:14px;color:currentColor;"></i>';
+                document.getElementById("payment-label").textContent =
+                    "Withdrawal method skipped";
+                var pBadge = document.getElementById("payment-badge");
+                pBadge.className = "badge badge-warn";
+                pBadge.textContent = "Needed";
+
+                // Swap "what happens next" alert to warning variant
+                var next = document.getElementById("whats-next-alert");
+                next.className = "alert alert-warn";
+                next.innerHTML =
+                    '<i class="fa-solid fa-triangle-exclamation alert-icon" style="color:#9C6600;font-size:18px;"></i>' +
+                    '<div class="alert-body">' +
+                    '<div class="alert-title">Add a withdrawal method before your first withdrawal</div>' +
+                    "Your plan can't start until we know where to withdraw from. Once you add it, we'll show you exactly what to expect." +
+                    "</div>";
+
+                // Swap CTAs
+                document
+                    .getElementById("add-payment-cta")
+                    .classList.remove("hidden");
+                var dash = document.getElementById("dashboard-cta");
+                dash.className = "btn btn-ghost";
+                dash.textContent = "Skip to dashboard for now";
+            })();
+        </script>
+    </body>
+</html>

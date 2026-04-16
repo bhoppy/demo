@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to AutoPayPlus — Email Preview</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Poppins',sans-serif; background:#F0F2F5; color:#2C2C2C; padding:16px; }
+    .email-wrap { max-width:600px; margin:0 auto; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.1); }
+
+    /* HEADER */
+    .email-header { background:#fff; padding:18px 32px 12px; text-align:center; border-bottom:1px solid #E5E7EB; }
+    .email-header img { height:28px; }
+    .email-hero { background:linear-gradient(135deg,#0576CE 0%,#0685E8 100%); padding:36px 32px 32px; text-align:center; color:#fff; }
+    .email-eyebrow { font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:12px; }
+    .email-hero h1 { font-size:26px;font-weight:700;line-height:1.2;margin-bottom:12px; }
+    .email-hero p { font-size:14px;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:24px;max-width:420px;margin-left:auto;margin-right:auto; }
+    .email-cta { display:inline-block;background:#fff;color:#0576CE;font-weight:700;font-size:15px;padding:13px 32px;border-radius:8px;text-decoration:none; }
+    .email-expire { font-size:11px;color:rgba(255,255,255,.6);margin-top:12px; }
+
+    /* BODY */
+    .email-body { padding:28px 32px; }
+    .section-label { font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A8A8A;margin-bottom:4px; }
+    .section-head { font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:4px; }
+    .section-sub { font-size:13px;color:#5A5A5A;margin-bottom:20px;line-height:1.5; }
+
+    /* LOAN TABLE */
+    .loan-table { border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-bottom:20px; }
+    .loan-table-header { background:linear-gradient(135deg,#0576CE 0%,#0685E8 100%);padding:10px 16px;display:flex;justify-content:space-between;align-items:center; }
+    .loan-table-header .lt-label { font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.75); }
+    .loan-table-header .lt-value { font-size:13px;font-weight:600;color:#fff; }
+    .loan-table-row { display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid #F3F4F6; }
+    .loan-table-row:last-child { border-bottom:none; }
+    .loan-table-row .lr-label { font-size:13px;color:#5A5A5A; }
+    .loan-table-row .lr-value { font-size:13px;font-weight:600;color:#2C2C2C; }
+    .loan-table-row .lr-value.highlight { color:#0576CE;font-weight:700; }
+
+    /* STATS */
+    .stats-row { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px; }
+    .stat-box { background:#E8F6EE;border:1px solid #C6E9D4;border-radius:8px;padding:16px;text-align:center; }
+    .stat-label { font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0F7B43;margin-bottom:6px; }
+    .stat-value { font-size:24px;font-weight:700;color:#0F7B43;line-height:1.1; }
+
+    /* CHECKLIST */
+    .checklist-title { font-size:16px;font-weight:700;color:#1a1a2e;margin-bottom:4px; }
+    .checklist-sub { font-size:13px;color:#5A5A5A;margin-bottom:16px;line-height:1.5; }
+    .check-item { display:flex;gap:14px;align-items:flex-start;margin-bottom:14px; }
+    .check-num { width:28px;height:28px;border-radius:50%;background:#0576CE;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px; }
+    .check-body .check-title { font-size:14px;font-weight:600;color:#2C2C2C;margin-bottom:2px; }
+    .check-body .check-desc { font-size:12px;color:#5A5A5A;line-height:1.45; }
+    .included-badge { display:inline-block;font-size:10px;font-weight:700;background:#E8F6EE;color:#0F7B43;border-radius:3px;padding:1px 6px;letter-spacing:.05em;vertical-align:middle;margin-left:6px; }
+
+    /* INSURANCE */
+    .insurance-box { background:#FFF6E5;border:1px solid #FCB429;border-radius:8px;padding:16px 20px;margin-bottom:24px; }
+    .ins-eyebrow { font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9C6600;margin-bottom:6px; }
+    .ins-title { font-size:15px;font-weight:700;color:#2C2C2C;margin-bottom:6px; }
+    .ins-sub { font-size:13px;color:#5A5A5A;line-height:1.5;margin-bottom:14px; }
+    .ins-btn { display:inline-block;background:#1B9E5A;color:#fff;font-weight:700;font-size:13px;padding:10px 22px;border-radius:6px;text-decoration:none; }
+
+    /* FOOTER CTA */
+    .footer-cta { text-align:center;padding:20px 0 8px; }
+    .footer-cta .main-btn { display:inline-block;background:linear-gradient(135deg,#0576CE 0%,#0685E8 100%);color:#fff;font-weight:700;font-size:15px;padding:14px 40px;border-radius:8px;text-decoration:none;width:100%;text-align:center; }
+    .footer-trouble { text-align:center;font-size:12px;color:#8A8A8A;margin-top:10px; }
+    .footer-trouble a { color:#0576CE; }
+
+    /* EMAIL FOOTER */
+    .email-footer { padding:20px 32px 28px;border-top:1px solid #F3F4F6;text-align:center; }
+    .ef-brand { font-size:13px;color:#5A5A5A;line-height:1.6;margin-bottom:12px; }
+    .ef-links { font-size:11px;color:#8A8A8A; }
+    .ef-links a { color:#8A8A8A; }
+  </style>
+</head>
+<body>
+<div class="email-wrap">
+
+  <!-- Header -->
+  <div class="email-header">
+    <img src="https://autopayplus.com/wp-content/uploads/2021/05/APP-Logo-2024-without-USEA.svg" alt="AutoPayPlus">
+  </div>
+
+  <!-- Hero -->
+  <div class="email-hero">
+    <div class="email-eyebrow">Welcome to AutoPayPlus</div>
+    <h1>Congrats on your<br>2025 Ford Escape, Sarah!</h1>
+    <p>Your new payment plan is ready. Finish setting up your account in about 5 minutes — we'll show you exactly what to expect at every step.</p>
+    <a href="01-magic-link.html" class="email-cta">Set Up My Account &rarr;</a>
+    <div class="email-expire">Link expires in 7 days &nbsp;&middot;&nbsp; Secure, one-tap setup</div>
+  </div>
+
+  <!-- Body -->
+  <div class="email-body">
+
+    <!-- Loan at a glance -->
+    <div class="section-label">Your loan</div>
+    <div class="section-head">Your loan at a glance</div>
+    <div class="section-sub">Here's the loan AutoPayPlus will manage for you. No surprises.</div>
+
+    <div class="loan-table">
+      <div class="loan-table-header">
+        <span class="lt-label">Loan Summary</span>
+        <span class="lt-value">2025 Ford Escape</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">Financed amount</span>
+        <span class="lr-value">$32,450.00</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">APR</span>
+        <span class="lr-value">6.4%</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">Loan term</span>
+        <span class="lr-value">72 months</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">Plan cycle</span>
+        <span class="lr-value">Biweekly</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">Biweekly withdrawal</span>
+        <span class="lr-value">$272.00</span>
+      </div>
+      <div class="loan-table-row">
+        <span class="lr-label">First withdrawal date</span>
+        <span class="lr-value highlight">May 2, 2026</span>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:#8A8A8A;margin-bottom:20px;line-height:1.5;">Withdrawals are based on your pay schedule. Your first withdrawal may start before your next due date.</div>
+
+    <!-- Savings stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-label">Est. Interest Reduction</div>
+        <div class="stat-value">$3,215</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Est. Early Payoff</div>
+        <div class="stat-value">9 months</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:#8A8A8A;margin-bottom:28px;">Estimates based on your loan terms. Actual results vary with payment timing.</div>
+
+    <!-- What's left to do -->
+    <div class="checklist-title">What's left to do</div>
+    <div class="checklist-sub">A few quick steps to finish setup. We'll walk you through each one.</div>
+
+    <div class="check-item">
+      <div class="check-num">1</div>
+      <div class="check-body">
+        <div class="check-title">Create your member portal account</div>
+        <div class="check-desc">This is how you'll sign in to see what's coming next on your plan.</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">2</div>
+      <div class="check-body">
+        <div class="check-title">Verify your loan information</div>
+        <div class="check-desc">Confirm your 2025 Ford Escape details look right before we start.</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">3</div>
+      <div class="check-body">
+        <div class="check-title">Add your banking information</div>
+        <div class="check-desc">This is the account withdrawals will come from. We need it before your first withdrawal.</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">4</div>
+      <div class="check-body">
+        <div class="check-title">Turn on free credit monitoring <span class="included-badge">INCLUDED</span></div>
+        <div class="check-desc">Verify with TransUnion to unlock 12 months of free credit monitoring — no impact to your score.</div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+    <!-- Insurance -->
+    <div class="insurance-box">
+      <div class="ins-eyebrow">One more thing</div>
+      <div class="ins-title">Check your insurance rate on the new Escape</div>
+      <div class="ins-sub">A new vehicle is a great time to compare. See what you could be paying on the 2025 Ford Escape — no commitment, just a quick quote.</div>
+      <a href="#" class="ins-btn">Get My Insurance Quote</a>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="footer-cta">
+      <a href="01-magic-link.html" class="main-btn">Finish Setting Up &rarr;</a>
+    </div>
+    <div class="footer-trouble">Trouble with the button? <a href="01-magic-link.html">Open in browser</a></div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="email-footer">
+    <div class="ef-brand">AutoPayPlus guides your payments in a clear, predictable way — we don't replace your lender. You'll always be able to see what's coming next.</div>
+    <div class="ef-links">Questions? <a href="mailto:membersupport@autopayplus.com">membersupport@autopayplus.com</a> &nbsp;&middot;&nbsp; (800) 555-1100</div>
+    <div class="ef-links" style="margin-top:8px;">&copy; 2026 AutoPayPlus &nbsp;&middot;&nbsp; <a href="#">Manage preferences</a> &nbsp;&middot;&nbsp; <a href="#">Unsubscribe</a></div>
+  </div>
+
+</div>
+</body>
+</html>
